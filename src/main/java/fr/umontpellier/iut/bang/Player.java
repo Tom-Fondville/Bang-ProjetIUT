@@ -199,8 +199,10 @@ public class Player {
      * @return distance à laquelle le joueur courant voit le joueur passé en paramètre
      */
     public int distanceTo(Player player) {
-        // TODO: prendre en compte les cartes qui modifient la distance du joueur
-        return game.getPlayerDistance(this, player);
+        int distance = game.getPlayerDistance(this, player);
+        if (player.hand.stream().anyMatch(c -> c.getName().equals("Mustang"))) distance += 1;
+        if (this.hand.stream().anyMatch(c -> c.getName().equals("Scope"))) distance -= 1;
+        return distance;
     }
 
     /**
