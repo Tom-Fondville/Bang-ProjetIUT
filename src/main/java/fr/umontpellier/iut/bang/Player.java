@@ -83,6 +83,18 @@ public class Player {
     }
 
     /**
+     * Change l'arme du joueur
+     * Si le joueur a déjà une arme, celle-ci est défaussée
+     * <p>
+     * Remarque : pour retirer l'arme du joueur, il faut appeler {@code p.setWeapon(null);}
+     *
+     * @param weapon nouvelle arme à équiper
+     */
+    public void setWeapon(WeaponCard weapon) {
+        throw new RuntimeException("Méthode non implémentée !");
+    }
+
+    /**
      * @return la portée de l'arme équipée (1 si aucune arme équipée)
      */
     public int getWeaponRange() {
@@ -108,7 +120,13 @@ public class Player {
      * immédiatement après le joueur courant)
      */
     public List<Player> getOtherPlayers() {
-        throw new RuntimeException("Méthode non implémentée !");
+        List<Player> players = new ArrayList<>();
+        int i = game.getPlayers().indexOf(this);
+        while (players.size() - 1 < game.getPlayers().size() - 1) {
+            if (i + 1 == players.size()) i = 0;
+            players.add(game.getPlayers().get(i));
+        }
+        return players;
     }
 
     /**
@@ -125,18 +143,6 @@ public class Player {
      */
     public boolean isDead() {
         return healthPoints <= 0;
-    }
-
-    /**
-     * Change l'arme du joueur
-     * Si le joueur a déjà une arme, celle-ci est défaussée
-     * <p>
-     * Remarque : pour retirer l'arme du joueur, il faut appeler {@code p.setWeapon(null);}
-     *
-     * @param weapon nouvelle arme à équiper
-     */
-    public void setWeapon(WeaponCard weapon) {
-        throw new RuntimeException("Méthode non implémentée !");
     }
 
     /**
@@ -185,7 +191,8 @@ public class Player {
      * @return distance à laquelle le joueur courant voit le joueur passé en paramètre
      */
     public int distanceTo(Player player) {
-        throw new RuntimeException("Méthode non implémentée !");
+        // TODO: prendre en compte les cartes qui modifient la distance du joueur
+        return game.getPlayerDistance(this, player);
     }
 
     /**
@@ -208,6 +215,7 @@ public class Player {
 
     /**
      * Ajoute une carte à la main du joueur
+     *
      * @param card carte à ajouter
      */
     public void addToHand(Card card) {
@@ -435,9 +443,9 @@ public class Player {
             handJoiner.add(card.toString());
         }
         return String.format("  - %s (%s)\n", name, bangCharacter.getName())
-                + String.format("  Rôle: %s      HP: %s%s\n", role, new String(hpChars), new String(missingHpChars))
-                + String.format("  Arme: %s (%d)     En Jeu: %s\n", weaponString, getWeaponRange(), inPlayJoiner.toString())
-                + String.format("  Main: %s\n", handJoiner.toString());
+               + String.format("  Rôle: %s      HP: %s%s\n", role, new String(hpChars), new String(missingHpChars))
+               + String.format("  Arme: %s (%d)     En Jeu: %s\n", weaponString, getWeaponRange(), inPlayJoiner)
+               + String.format("  Main: %s\n", handJoiner);
     }
 
     /**
@@ -461,16 +469,16 @@ public class Player {
         for (Card c : hand) {
             cardsJoiner.add(c.toJSON());
         }
-        joiner.add(String.format("\"hand\": [%s]", cardsJoiner.toString()));
+        joiner.add(String.format("\"hand\": [%s]", cardsJoiner));
 
         // cartes en jeu
         cardsJoiner = new StringJoiner(", ");
         for (Card c : inPlay) {
             cardsJoiner.add(c.toJSON());
         }
-        joiner.add(String.format("\"in_play\": [%s]", cardsJoiner.toString()));
+        joiner.add(String.format("\"in_play\": [%s]", cardsJoiner));
 
-        return "{" + joiner.toString() + "}";
+        return "{" + joiner + "}";
     }
 
     /**
