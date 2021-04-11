@@ -183,7 +183,14 @@ public class Player {
      *                 responsable (p.ex. Dynamite)
      */
     public void decrementHealth(int n, Player attacker) {
-        throw new RuntimeException("Méthode non implémentée !");
+        healthPoints -= n;
+        if (healthPoints <= 0) {
+            for (Card card : hand) {
+                if (card.getName().equals("Beer") && card.canPlayFromHand(this)) {
+                    playFromHand(card);
+                }
+            }
+        }
     }
 
     /**
