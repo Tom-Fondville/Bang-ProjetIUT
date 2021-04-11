@@ -169,7 +169,21 @@ public class Game {
      * @return entier représentant la distance qui sépare les deux joueurs
      */
     public int getPlayerDistance(Player player1, Player player2) {
-        throw new RuntimeException("Méthode non implémentée !");
+        int p1i = players.indexOf(player1);
+
+        int d = 0;
+        for (int i = p1i; i < players.size(); i++) {
+            if (players.get(i).equals(player2)) {
+                break;
+            }
+            if (players.get(players.size() - i - 1).equals(player2)) {
+                d++;
+                break;
+            }
+            d++;
+        }
+
+        return d;
     }
 
     /**
@@ -336,7 +350,7 @@ public class Game {
             for (int i = 0; i < 5; i++) {
                 joiner.add(iterator.next().toString());
             }
-            discardString = String.format(": ..., %s", joiner.toString());
+            discardString = String.format(": ..., %s", joiner);
         } else if (n > 0) {
             StringJoiner joiner = new StringJoiner(", ");
             for (Card c : discardPile) {
@@ -348,8 +362,8 @@ public class Game {
         }
 
         String generalInfo = String.format("-- Tour de %s --\n", currentPlayer.getName()) +
-                String.format("Pioche (%d)\n", drawPile.size()) +
-                String.format("Défausse (%d)%s\n\n", discardPile.size(), discardString);
+                             String.format("Pioche (%d)\n", drawPile.size()) +
+                             String.format("Défausse (%d)%s\n\n", discardPile.size(), discardString);
 
         StringJoiner joiner = new StringJoiner("\n");
         int index = players.indexOf(currentPlayer);
@@ -387,7 +401,7 @@ public class Game {
             playersJoiner.add(p.toJSON());
         }
         joiner.add(String.format("\"players\": [%s]", playersJoiner));
-        return "{" + joiner.toString() + "}";
+        return "{" + joiner + "}";
     }
 
     /**
