@@ -121,10 +121,11 @@ public class Player {
      */
     public List<Player> getOtherPlayers() {
         List<Player> players = new ArrayList<>();
-        int i = game.getPlayers().indexOf(this);
-        while (players.size() - 1 < game.getPlayers().size() - 1) {
-            if (i + 1 == players.size()) i = 0;
+        int i = game.getPlayers().indexOf(this) + 1;
+        while (players.size() < game.getPlayers().size() - 1) {
+            if (i == game.getPlayers().size()) i = 0;
             players.add(game.getPlayers().get(i));
+            i++;
         }
         return players;
     }
