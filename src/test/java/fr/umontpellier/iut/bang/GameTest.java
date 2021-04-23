@@ -37,7 +37,6 @@ class GameTest {
         p4 = minimalGame.getPlayers().get(3);
     }
 
-    @Disabled
     @Test
     void testGetPlayerDistance() {
         assertEquals(1, minimalGame.getPlayerDistance(p1, p2));
