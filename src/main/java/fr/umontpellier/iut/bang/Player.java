@@ -136,7 +136,8 @@ public class Player {
      * @param weapon nouvelle arme à équiper
      */
     public void setWeapon(WeaponCard weapon) {
-        throw new RuntimeException("Méthode non implémentée !");
+        if (this.weapon != null) discard(this.weapon);
+        this.weapon = weapon;
     }
 
     /**
@@ -185,7 +186,9 @@ public class Player {
      * @return distance à laquelle le joueur courant voit le joueur passé en paramètre
      */
     public int distanceTo(Player player) {
-        throw new RuntimeException("Méthode non implémentée !");
+//        int distance = game.getPlayerDistance(this, player);
+//        if (weapon != null)
+            throw new RuntimeException("Méthode non implémentée !");
     }
 
     /**
