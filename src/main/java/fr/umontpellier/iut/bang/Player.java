@@ -200,9 +200,9 @@ public class Player {
      */
     public int distanceTo(Player player) {
         int distance = game.getPlayerDistance(this, player);
-        if (player.hand.stream().anyMatch(c -> c.getName().equals("Mustang"))) distance += 1;
-        if (this.hand.stream().anyMatch(c -> c.getName().equals("Scope"))) distance -= 1;
-        return distance;
+        if (player.getInPlay().stream().anyMatch(c -> c.getName().equals("Mustang"))) distance += 1;
+        if (this.getInPlay().stream().anyMatch(c -> c.getName().equals("Scope"))) distance -= 1;
+        return Math.max(0, distance);
     }
 
     /**
