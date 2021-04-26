@@ -118,7 +118,10 @@ public class Player {
      * à {@code range}.
      */
     public List<Player> getPlayersInRange(int range) {
-        throw new RuntimeException("Méthode non implémentée !");
+        ArrayList<Player> playersInRange = new ArrayList<>();
+        for (Player p : game.getPlayers())
+            if (p != this && distanceTo(p) <= range) playersInRange.add(p);
+        return playersInRange;
     }
 
     /**
@@ -213,6 +216,7 @@ public class Player {
 
     /**
      * Ajoute une carte à la main du joueur
+     *
      * @param card carte à ajouter
      */
     public void addToHand(Card card) {

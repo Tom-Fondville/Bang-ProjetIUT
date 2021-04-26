@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import static fr.umontpellier.iut.bang.cards.CardSuit.CLUB;
@@ -57,5 +58,16 @@ class PlayerTest {
         assertEquals(p1.distanceTo(p3), 2);
         assertEquals(p1.distanceTo(p2), 1);
         assertEquals(p2.distanceTo(p4), 2);
+    }
+
+    @Test
+    void testGetPlayersInRange() {
+        p1.addToInPlay(new Scope(1, CLUB));
+        p3.addToInPlay(new Mustang(1, CLUB));
+        ArrayList<Player> inRange = new ArrayList<>() {{
+            add(p2);
+            add(p4);
+        }};
+        assertEquals(p1.getPlayersInRange(1), inRange);
     }
 }
