@@ -109,7 +109,11 @@ public class Player {
      * immédiatement après le joueur courant)
      */
     public List<Player> getOtherPlayers() {
-        throw new RuntimeException("Méthode non implémentée !");
+        ArrayList<Player> otherPlayers = new ArrayList<Player>();
+        int j = game.getPlayers().indexOf(this) + 1;
+        for (int i = j; i < j + game.getPlayers().size() - 1; i++)
+            otherPlayers.add(game.getPlayers().get(i % game.getPlayers().size()));
+        return otherPlayers;
     }
 
     /**
@@ -119,8 +123,8 @@ public class Player {
      */
     public List<Player> getPlayersInRange(int range) {
         ArrayList<Player> playersInRange = new ArrayList<>();
-        for (Player p : game.getPlayers())
-            if (p != this && distanceTo(p) <= range) playersInRange.add(p);
+        for (Player p : getOtherPlayers())
+            if (distanceTo(p) <= range) playersInRange.add(p);
         return playersInRange;
     }
 
