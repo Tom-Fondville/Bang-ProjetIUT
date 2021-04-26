@@ -108,7 +108,7 @@ public class Player {
      * immédiatement après le joueur courant)
      */
     public List<Player> getOtherPlayers() {
-        ArrayList<Player> otherPlayers = new ArrayList<Player>();
+        ArrayList<Player> otherPlayers = new ArrayList<>();
         int j = game.getPlayers().indexOf(this) + 1;
         for (int i = j; i < j + game.getPlayers().size() - 1; i++)
             otherPlayers.add(game.getPlayers().get(i % game.getPlayers().size()));
