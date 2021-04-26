@@ -2,6 +2,7 @@ package fr.umontpellier.iut.bang;
 
 import fr.umontpellier.iut.bang.cards.BlueCard;
 import fr.umontpellier.iut.bang.cards.Card;
+import fr.umontpellier.iut.bang.cards.Scope;
 import fr.umontpellier.iut.bang.cards.WeaponCard;
 import fr.umontpellier.iut.bang.characters.BangCharacter;
 
@@ -186,9 +187,10 @@ public class Player {
      * @return distance à laquelle le joueur courant voit le joueur passé en paramètre
      */
     public int distanceTo(Player player) {
-//        int distance = game.getPlayerDistance(this, player);
-//        if (weapon != null)
-            throw new RuntimeException("Méthode non implémentée !");
+        int distance = game.getPlayerDistance(this, player);
+        if (inPlay.stream().anyMatch(c -> c.getName().equals("Scope"))) distance--;
+        if (player.getInPlay().stream().anyMatch(c -> c.getName().equals("Mustang"))) distance++;
+        return Math.max(distance, 1);
     }
 
     /**

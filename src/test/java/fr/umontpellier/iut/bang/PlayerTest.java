@@ -39,7 +39,6 @@ class PlayerTest {
         p4 = minimalGame.getPlayers().get(3);
     }
 
-
     @Test
     void testSetWeapon() {
         Volcanic v1 = new Volcanic(1, CLUB);
@@ -50,4 +49,13 @@ class PlayerTest {
         assertEquals(p2.getWeapon(), r1);
     }
 
+    @Test
+    void testDistanceTo(){
+        p1.addToInPlay(new Scope(1, CLUB));
+        assertEquals(p1.distanceTo(p3), 1);
+        p3.addToInPlay(new Mustang(1, CLUB));
+        assertEquals(p1.distanceTo(p3), 2);
+        assertEquals(p1.distanceTo(p2), 1);
+        assertEquals(p2.distanceTo(p4), 2);
+    }
 }
