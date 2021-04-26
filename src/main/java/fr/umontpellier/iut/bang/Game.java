@@ -169,21 +169,9 @@ public class Game {
      * @return entier représentant la distance qui sépare les deux joueurs
      */
     public int getPlayerDistance(Player player1, Player player2) {
-        int p1i = players.indexOf(player1);
-
-        int d = 0;
-        for (int i = p1i; i < players.size(); i++) {
-            if (players.get(i).equals(player2)) {
-                break;
-            }
-            if (players.get(players.size() - i - 1).equals(player2)) {
-                d++;
-                break;
-            }
-            d++;
-        }
-
-        return d;
+        int distance = Math.abs(players.indexOf(player1) - players.indexOf(player2));
+        if (distance > players.size() / 2) return players.size() - distance;
+        else return distance;
     }
 
     /**
