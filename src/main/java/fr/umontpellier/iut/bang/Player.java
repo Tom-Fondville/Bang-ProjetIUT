@@ -136,7 +136,12 @@ public class Player {
      * à {@code range}.
      */
     public List<Player> getPlayersInRange(int range) {
-        throw new RuntimeException("Méthode non implémentée !");
+        List<Player> players = new ArrayList<>();
+        for (Player player : getOtherPlayers()) {
+            if (this.distanceTo(player) <= range)
+                players.add(player);
+        }
+        return players;
     }
 
     /**
