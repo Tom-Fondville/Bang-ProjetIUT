@@ -2,7 +2,6 @@ package fr.umontpellier.iut.bang;
 
 import fr.umontpellier.iut.bang.cards.BlueCard;
 import fr.umontpellier.iut.bang.cards.Card;
-import fr.umontpellier.iut.bang.cards.Scope;
 import fr.umontpellier.iut.bang.cards.WeaponCard;
 import fr.umontpellier.iut.bang.characters.BangCharacter;
 
@@ -186,7 +185,14 @@ public class Player {
      *                 responsable (p.ex. Dynamite)
      */
     public void decrementHealth(int n, Player attacker) {
-        throw new RuntimeException("Méthode non implémentée !");
+        healthPoints -= n;
+        if (healthPoints <= 0) {
+            for (Card card : hand) {
+                if (card.getName().equals("Beer") && card.canPlayFromHand(this)) {
+                    playFromHand(card);
+                }
+            }
+        }
     }
 
     /**
@@ -220,7 +226,6 @@ public class Player {
 
     /**
      * Ajoute une carte à la main du joueur
-     *
      * @param card carte à ajouter
      */
     public void addToHand(Card card) {
@@ -245,7 +250,7 @@ public class Player {
      * @return true si la carte a bien été retirée, false sinon (la carte n'était pas dans la main du joueur)
      */
     public boolean removeFromHand(Card card) {
-        throw new RuntimeException("Méthode non implémentée !");
+        return hand.remove(card);
     }
 
     /**
@@ -448,9 +453,9 @@ public class Player {
             handJoiner.add(card.toString());
         }
         return String.format("  - %s (%s)\n", name, bangCharacter.getName())
-                + String.format("  Rôle: %s      HP: %s%s\n", role, new String(hpChars), new String(missingHpChars))
-                + String.format("  Arme: %s (%d)     En Jeu: %s\n", weaponString, getWeaponRange(), inPlayJoiner.toString())
-                + String.format("  Main: %s\n", handJoiner.toString());
+               + String.format("  Rôle: %s      HP: %s%s\n", role, new String(hpChars), new String(missingHpChars))
+               + String.format("  Arme: %s (%d)     En Jeu: %s\n", weaponString, getWeaponRange(), inPlayJoiner)
+               + String.format("  Main: %s\n", handJoiner);
     }
 
     /**
@@ -474,16 +479,16 @@ public class Player {
         for (Card c : hand) {
             cardsJoiner.add(c.toJSON());
         }
-        joiner.add(String.format("\"hand\": [%s]", cardsJoiner.toString()));
+        joiner.add(String.format("\"hand\": [%s]", cardsJoiner));
 
         // cartes en jeu
         cardsJoiner = new StringJoiner(", ");
         for (Card c : inPlay) {
             cardsJoiner.add(c.toJSON());
         }
-        joiner.add(String.format("\"in_play\": [%s]", cardsJoiner.toString()));
+        joiner.add(String.format("\"in_play\": [%s]", cardsJoiner));
 
-        return "{" + joiner.toString() + "}";
+        return "{" + joiner + "}";
     }
 
     /**
@@ -512,7 +517,7 @@ public class Player {
      * @param card carte à retirer de la liste
      */
     public void removeFromInPlay(BlueCard card) {
-        throw new RuntimeException("Méthode non implémentée !");
+        inPlay.remove(card);
     }
 
     /**

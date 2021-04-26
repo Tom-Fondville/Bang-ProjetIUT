@@ -43,6 +43,7 @@ class GameTest {
         assertEquals(2, minimalGame.getPlayerDistance(p1, p3));
         assertEquals(1, minimalGame.getPlayerDistance(p1, p4));
         assertEquals(2, minimalGame.getPlayerDistance(p2, p4));
+        assertEquals(2, minimalGame.getPlayerDistance(p3, p1));
     }
 
 }
