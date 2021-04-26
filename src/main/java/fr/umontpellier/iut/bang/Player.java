@@ -258,7 +258,7 @@ public class Player {
      * @return true si la carte a bien été retirée, false sinon (la carte n'était pas dans la main du joueur)
      */
     public boolean removeFromHand(Card card) {
-        throw new RuntimeException("Méthode non implémentée !");
+        return hand.remove(card);
     }
 
     /**
@@ -525,7 +525,7 @@ public class Player {
      * @param card carte à retirer de la liste
      */
     public void removeFromInPlay(BlueCard card) {
-        throw new RuntimeException("Méthode non implémentée !");
+        inPlay.remove(card);
     }
 
     /**
