@@ -91,7 +91,10 @@ public class Player {
      * @param weapon nouvelle arme à équiper
      */
     public void setWeapon(WeaponCard weapon) {
-        throw new RuntimeException("Méthode non implémentée !");
+        if (this.weapon != null) {
+            discard(this.weapon);
+        }
+        this.weapon = weapon;
     }
 
     /**
