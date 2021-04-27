@@ -22,15 +22,19 @@ public class Bang extends OrangeCard {
             }
         }
 
-        if (rangePlayers.size() > 1) {
+        if (!rangePlayers.isEmpty()) {
             Player p = player.choosePlayer(
                     "Choisissez un joueur à attaquer",
                     rangePlayers,
                     false);
 
-            if (!p.askMissed()) {
+            if (!barrelDraw(p) && !p.askMissed()) {
                 p.decrementHealth(1, player);
             }
         }
+    }
+
+    private boolean barrelDraw(Player p) {
+        return p.getInPlay().stream().anyMatch(c -> c.getName().equals("Barrel")) && p.randomDraw().getSuit().equals(CardSuit.HEART);
     }
 }
