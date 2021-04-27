@@ -563,8 +563,7 @@ public class Player {
         // phase 0: setup et résolution des effets préliminaires (dynamite, prison, etc...)
         Optional<BlueCard> dynamite = inPlay.stream().filter(b -> b.getName().equals("Dynamite")).findFirst();
         if (dynamite.isPresent()) {
-            Card ds = drawCard();
-            discard(ds);
+            Card ds = randomDraw();
 
             if (ds.getSuit().equals(CardSuit.SPADE) && ds.getValue() >= 2 && ds.getValue() <= 9) {
                 decrementHealth(3, null);
