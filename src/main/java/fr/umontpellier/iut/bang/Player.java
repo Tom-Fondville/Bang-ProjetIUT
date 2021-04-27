@@ -197,7 +197,7 @@ public class Player {
             }
         }
         if (bangCharacter.getName().equals("El Gringo")) {
-            for (int i = 0; i < attacker.getHealthPoints(); i++) {
+            for (int i = 0; i < n; i++) {
                 Card card = attacker.removeRandomCardFromHand();
                 if (card != null) {
                     this.addToHand(card);
@@ -205,7 +205,6 @@ public class Player {
             }
         }
     }
-
 
     /**
      * demande au joueur de choisir une carte Missed!
