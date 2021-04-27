@@ -103,6 +103,7 @@ public class CardsTest {
         assertTrue(discardPile.contains(beer));
     }
 
+    @Disabled
     @Test
     void testBeer() {
         Card beer = new Beer(1, CardSuit.HEART);
@@ -234,7 +235,6 @@ public class CardsTest {
         assertTrue(p2.getInPlay().contains(dynamite));
     }
 
-    @Disabled
     @Test
     void testGatling() {
         simpleGame.setInput("Bang!", "Missed!", "");
