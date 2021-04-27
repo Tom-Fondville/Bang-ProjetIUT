@@ -19,5 +19,4 @@ public class LuckyDuke extends BangCharacter {
         drawnCards.add(player.drawCard());
         return player.chooseCard("Choisissez la carte à dégainer",drawnCards,false,false);
     }
-
 }
