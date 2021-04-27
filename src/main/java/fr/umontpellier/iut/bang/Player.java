@@ -6,6 +6,7 @@ import fr.umontpellier.iut.bang.cards.WeaponCard;
 import fr.umontpellier.iut.bang.characters.BangCharacter;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Player {
     /**
@@ -83,6 +84,19 @@ public class Player {
     }
 
     /**
+     * Change l'arme du joueur
+     * Si le joueur a déjà une arme, celle-ci est défaussée
+     * <p>
+     * Remarque : pour retirer l'arme du joueur, il faut appeler {@code p.setWeapon(null);}
+     *
+     * @param weapon nouvelle arme à équiper
+     */
+    public void setWeapon(WeaponCard weapon) {
+        if (this.weapon != null) discard(this.weapon);
+        this.weapon = weapon;
+    }
+
+    /**
      * @return la portée de l'arme équipée (1 si aucune arme équipée)
      */
     public int getWeaponRange() {
@@ -135,19 +149,6 @@ public class Player {
     }
 
     /**
-     * Change l'arme du joueur
-     * Si le joueur a déjà une arme, celle-ci est défaussée
-     * <p>
-     * Remarque : pour retirer l'arme du joueur, il faut appeler {@code p.setWeapon(null);}
-     *
-     * @param weapon nouvelle arme à équiper
-     */
-    public void setWeapon(WeaponCard weapon) {
-        if (this.weapon != null) discard(this.weapon);
-        this.weapon = weapon;
-    }
-
-    /**
      * @param cardName nom de la carte à renvoyer
      * @return la première carte parmi les cartes en jeu du joueur ayant le nom passé en argument, ou {@code null}
      * si aucune carte ne correspond
@@ -187,12 +188,40 @@ public class Player {
     public void decrementHealth(int n, Player attacker) {
         healthPoints -= n;
         if (healthPoints <= 0) {
-            for (Card card : hand) {
-                if (card.getName().equals("Beer") && card.canPlayFromHand(this)) {
-                    playFromHand(card);
+            while (healthPoints < 0) {
+                Optional<Card> beer = hand.stream().filter(c -> c.getName().equals("Beer")).findAny();
+                if (beer.isPresent() && beer.get().canPlayFromHand(this)) {
+                    this.playFromHand(beer.get());
                 }
             }
         }
+        if (bangCharacter.getName().equals("El Gringo")) {
+            for (int i = 0; i < attacker.getHealthPoints(); i++) {
+                Card card = attacker.removeRandomCardFromHand();
+                if (card != null) {
+                    this.addToHand(card);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * demande au joueur de choisir une carte Missed!
+     *
+     * @return true si le joueur a choisis une carte Missed!
+     */
+    public boolean askMissed() {
+        Card c = null;
+        if (this.getHand().stream().anyMatch(m -> m.getName().equals("Missed!"))) {
+            c = this.chooseCard(
+                    "Choisissez une carte Missed!",
+                    this.getHand().stream().filter(m -> m.getName().equals("Missed!")).collect(Collectors.toList()),
+                    false,
+                    true);
+            this.discardFromHand(c);
+        }
+        return c != null && c.getName().equals("Missed!");
     }
 
     /**
@@ -226,6 +255,7 @@ public class Player {
 
     /**
      * Ajoute une carte à la main du joueur
+     *
      * @param card carte à ajouter
      */
     public void addToHand(Card card) {

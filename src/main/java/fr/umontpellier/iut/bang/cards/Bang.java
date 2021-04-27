@@ -22,16 +22,15 @@ public class Bang extends OrangeCard {
             }
         }
 
-        Player p;
         if (rangePlayers.size() > 1) {
-            p = player.choosePlayer(
+            Player p = player.choosePlayer(
                     "Choisissez un joueur à attaquer",
                     rangePlayers,
                     false);
-        } else {
-            p = rangePlayers.get(0);
-        }
 
-        p.decrementHealth(1, player);
+            if (!p.askMissed()) {
+                p.decrementHealth(1, player);
+            }
+        }
     }
 }

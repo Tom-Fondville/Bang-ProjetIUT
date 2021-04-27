@@ -131,7 +131,6 @@ public class CharactersTest {
         assertTrue(discardPile.contains(bang2));
     }
 
-    @Disabled
     @Test
     void testElGringo() {
         makeGameWithCharacter(new ElGringo());

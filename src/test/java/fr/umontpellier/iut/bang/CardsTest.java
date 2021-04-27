@@ -113,6 +113,18 @@ public class CardsTest {
         assertEquals(3, p1.getHealthPoints());
         p1.playFromHand(beer);
         assertEquals(4, p1.getHealthPoints());
+
+        p1.getHand().add(beer);
+        p1.playFromHand(beer);
+        assertEquals(4, p1.getHealthPoints());
+
+        simpleGame.removePlayer(p3);
+        simpleGame.removePlayer(p4);
+        simpleGame.removePlayer(p5);
+        p1.getHand().add(beer);
+        p1.decrementHealth(1, null);
+        p1.playFromHand(beer);
+        assertEquals(3, p1.getHealthPoints());
     }
 
     @Disabled
@@ -223,7 +235,6 @@ public class CardsTest {
         assertTrue(p2.getInPlay().contains(dynamite));
     }
 
-    @Disabled
     @Test
     void testGatling() {
         simpleGame.setInput("Bang!", "Missed!", "");
@@ -333,7 +344,6 @@ public class CardsTest {
         assertFalse(p3.getHand().contains(saloon));
     }
 
-    @Disabled
     @Test
     void testMissed() {
         simpleGame.setInput("p2", "Missed!");
