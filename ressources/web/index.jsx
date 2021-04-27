@@ -46,7 +46,7 @@ class Main extends React.Component {
         }
 
         let buttons = [];
-        for (const [i, button] of this.state.buttons.entries()) {
+        for (const button of this.state.buttons.entries()) {
             buttons.push(<PlayerButton label={button} value={button}/>);
         }
 
