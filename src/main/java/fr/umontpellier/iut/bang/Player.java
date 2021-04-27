@@ -6,6 +6,7 @@ import fr.umontpellier.iut.bang.cards.WeaponCard;
 import fr.umontpellier.iut.bang.characters.BangCharacter;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Player {
     /**
@@ -83,6 +84,19 @@ public class Player {
     }
 
     /**
+     * Change l'arme du joueur
+     * Si le joueur a déjà une arme, celle-ci est défaussée
+     * <p>
+     * Remarque : pour retirer l'arme du joueur, il faut appeler {@code p.setWeapon(null);}
+     *
+     * @param weapon nouvelle arme à équiper
+     */
+    public void setWeapon(WeaponCard weapon) {
+        if (this.weapon != null) discard(this.weapon);
+        this.weapon = weapon;
+    }
+
+    /**
      * @return la portée de l'arme équipée (1 si aucune arme équipée)
      */
     public int getWeaponRange() {
@@ -132,19 +146,6 @@ public class Player {
      */
     public boolean isDead() {
         return healthPoints <= 0;
-    }
-
-    /**
-     * Change l'arme du joueur
-     * Si le joueur a déjà une arme, celle-ci est défaussée
-     * <p>
-     * Remarque : pour retirer l'arme du joueur, il faut appeler {@code p.setWeapon(null);}
-     *
-     * @param weapon nouvelle arme à équiper
-     */
-    public void setWeapon(WeaponCard weapon) {
-        if (this.weapon != null) discard(this.weapon);
-        this.weapon = weapon;
     }
 
     /**
@@ -202,6 +203,25 @@ public class Player {
                 }
             }
         }
+    }
+
+
+    /**
+     * demande au joueur de choisir une carte Missed!
+     *
+     * @return true si le joueur a choisis une carte Missed!
+     */
+    public boolean askMissed() {
+        Card c = null;
+        if (this.getHand().stream().anyMatch(m -> m.getName().equals("Missed!"))) {
+            c = this.chooseCard(
+                    "Choisissez une carte Missed!",
+                    this.getHand().stream().filter(m -> m.getName().equals("Missed!")).collect(Collectors.toList()),
+                    false,
+                    true);
+            this.discardFromHand(c);
+        }
+        return c != null && c.getName().equals("Missed!");
     }
 
     /**

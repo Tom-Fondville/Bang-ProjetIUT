@@ -4,7 +4,6 @@ import fr.umontpellier.iut.bang.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Bang extends OrangeCard {
 
@@ -29,19 +28,8 @@ public class Bang extends OrangeCard {
                     rangePlayers,
                     false);
 
-            Card c = null;
-            if (p.getHand().stream().anyMatch(m -> m.getName().equals("Missed!"))) {
-                c = p.chooseCard(
-                        "Choisissez une carte Missed!",
-                        p.getHand().stream().filter(m -> m.getName().equals("Missed!")).collect(Collectors.toList()),
-                        false,
-                        true);
-            }
-
-            if (c == null || !c.getName().equals("Missed!")) {
+            if (!p.askMissed()) {
                 p.decrementHealth(1, player);
-            } else {
-                p.discardFromHand(c);
             }
         }
     }
