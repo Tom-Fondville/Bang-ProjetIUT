@@ -4,6 +4,7 @@ import fr.umontpellier.iut.bang.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Bang extends OrangeCard {
 
@@ -30,7 +31,7 @@ public class Bang extends OrangeCard {
 
             Card c = p.chooseCard(
                     "Choisissez une carte Missed!",
-                    p.getHand(),
+                    p.getHand().stream().filter(m -> m.getName().equals("Missed!")).collect(Collectors.toList()),
                     false,
                     true);
 
