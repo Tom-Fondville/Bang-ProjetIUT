@@ -568,12 +568,23 @@ public class Player {
             if (ds.getSuit().equals(CardSuit.SPADE) && ds.getValue() >= 2 && ds.getValue() <= 9) {
                 decrementHealth(3, null);
                 discard(dynamite.get());
-            }
-            else {
+            } else {
                 Player leftPlayer = getOtherPlayers().get(0);
                 leftPlayer.addToInPlay(dynamite.get());
             }
             removeFromInPlay(dynamite.get());
+        }
+
+        Optional<BlueCard> jail = inPlay.stream().filter(b -> b.getName().equals("Jail")).findFirst();
+        if (jail.isPresent()) {
+            Card ds = randomDraw();
+
+            discard(jail.get());
+            removeFromInPlay(jail.get());
+
+            if (!ds.getSuit().equals(CardSuit.HEART)) {
+                return;
+            }
         }
 
         // phase 1: piocher des cartes
