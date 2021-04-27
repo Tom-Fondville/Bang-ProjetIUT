@@ -187,9 +187,18 @@ public class Player {
     public void decrementHealth(int n, Player attacker) {
         healthPoints -= n;
         if (healthPoints <= 0) {
-            for (Card card : hand) {
-                if (card.getName().equals("Beer") && card.canPlayFromHand(this)) {
-                    playFromHand(card);
+            while (healthPoints < 0) {
+                Optional<Card> beer = hand.stream().filter(c -> c.getName().equals("Beer")).findAny();
+                if (beer.isPresent() && beer.get().canPlayFromHand(this)) {
+                    this.playFromHand(beer.get());
+                }
+            }
+        }
+        if (bangCharacter.getName().equals("El Gringo")) {
+            for (int i = 0; i < attacker.getHealthPoints(); i++) {
+                Card card = attacker.removeRandomCardFromHand();
+                if (card != null) {
+                    this.addToHand(card);
                 }
             }
         }
@@ -226,6 +235,7 @@ public class Player {
 
     /**
      * Ajoute une carte à la main du joueur
+     *
      * @param card carte à ajouter
      */
     public void addToHand(Card card) {
