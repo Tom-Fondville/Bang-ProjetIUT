@@ -29,11 +29,14 @@ public class Bang extends OrangeCard {
                     rangePlayers,
                     false);
 
-            Card c = p.chooseCard(
-                    "Choisissez une carte Missed!",
-                    p.getHand().stream().filter(m -> m.getName().equals("Missed!")).collect(Collectors.toList()),
-                    false,
-                    true);
+            Card c = null;
+            if (p.getHand().stream().anyMatch(m -> m.getName().equals("Missed!"))) {
+                c = p.chooseCard(
+                        "Choisissez une carte Missed!",
+                        p.getHand().stream().filter(m -> m.getName().equals("Missed!")).collect(Collectors.toList()),
+                        false,
+                        true);
+            }
 
             if (c == null || !c.getName().equals("Missed!")) {
                 p.decrementHealth(1, player);
