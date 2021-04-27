@@ -2,9 +2,6 @@ package fr.umontpellier.iut.bang.cards;
 
 import fr.umontpellier.iut.bang.Player;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class Gatling extends OrangeCard {
 
     public Gatling(int value, CardSuit suit) {
