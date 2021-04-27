@@ -143,7 +143,7 @@ public class CardsTest {
         assertTrue(discardPile.contains(mustang));
     }
 
-    @Disabled
+
     @Test
     void testCatBalouCarteEnMain() {
         simpleGame.setInput("p3", "");
@@ -157,7 +157,7 @@ public class CardsTest {
         assertTrue(discardPile.contains(mustang));
     }
 
-    @Disabled
+
     @Test
     void testDuel3Bang() {
         simpleGame.setInput("p3", "Bang!", "Bang!", "Bang!");
