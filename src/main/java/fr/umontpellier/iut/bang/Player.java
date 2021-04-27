@@ -2,6 +2,7 @@ package fr.umontpellier.iut.bang;
 
 import fr.umontpellier.iut.bang.cards.BlueCard;
 import fr.umontpellier.iut.bang.cards.Card;
+import fr.umontpellier.iut.bang.cards.CardSuit;
 import fr.umontpellier.iut.bang.cards.WeaponCard;
 import fr.umontpellier.iut.bang.characters.BangCharacter;
 
@@ -561,6 +562,20 @@ public class Player {
      */
     public void playTurn() {
         // phase 0: setup et résolution des effets préliminaires (dynamite, prison, etc...)
+        Optional<BlueCard> dynamite = inPlay.stream().filter(b -> b.getName().equals("Dynamite")).findFirst();
+        if (dynamite.isPresent()) {
+            Card ds = drawCard();
+            discard(ds);
+
+            if (ds.getSuit().equals(CardSuit.SPADE) && ds.getValue() >= 2 && ds.getValue() <= 9) {
+                decrementHealth(3, null);
+            }
+            else {
+                Player leftPlayer = getOtherPlayers().get(getOtherPlayers().size()-1);
+                leftPlayer.addToInPlay(dynamite.get());
+            }
+            removeFromInPlay(dynamite.get());
+        }
 
         // phase 1: piocher des cartes
         bangCharacter.onStartTurn(this);
