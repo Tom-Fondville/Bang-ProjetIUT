@@ -344,7 +344,6 @@ public class CardsTest {
         assertFalse(p3.getHand().contains(saloon));
     }
 
-    @Disabled
     @Test
     void testMissed() {
         simpleGame.setInput("p2", "Missed!");
