@@ -103,7 +103,6 @@ public class CardsTest {
         assertTrue(discardPile.contains(beer));
     }
 
-    @Disabled
     @Test
     void testBeer() {
         Card beer = new Beer(1, CardSuit.HEART);
@@ -113,6 +112,18 @@ public class CardsTest {
         assertEquals(3, p1.getHealthPoints());
         p1.playFromHand(beer);
         assertEquals(4, p1.getHealthPoints());
+
+        p1.getHand().add(beer);
+        p1.playFromHand(beer);
+        assertEquals(4, p1.getHealthPoints());
+
+        simpleGame.removePlayer(p3);
+        simpleGame.removePlayer(p4);
+        simpleGame.removePlayer(p5);
+        p1.getHand().add(beer);
+        p1.decrementHealth(1, null);
+        p1.playFromHand(beer);
+        assertEquals(3, p1.getHealthPoints());
     }
 
     @Disabled
