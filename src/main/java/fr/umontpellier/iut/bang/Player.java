@@ -568,9 +568,10 @@ public class Player {
 
             if (ds.getSuit().equals(CardSuit.SPADE) && ds.getValue() >= 2 && ds.getValue() <= 9) {
                 decrementHealth(3, null);
+                discard(dynamite.get());
             }
             else {
-                Player leftPlayer = getOtherPlayers().get(getOtherPlayers().size()-1);
+                Player leftPlayer = getOtherPlayers().get(0);
                 leftPlayer.addToInPlay(dynamite.get());
             }
             removeFromInPlay(dynamite.get());

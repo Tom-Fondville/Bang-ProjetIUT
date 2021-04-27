@@ -194,7 +194,6 @@ public class CardsTest {
         assertFalse(discardPile.contains(bang));
     }
 
-    @Disabled
     @Test
     void testDynamiteExplose() {
         simpleGame.setInput("", "Missed!", "Missed!");
@@ -214,7 +213,6 @@ public class CardsTest {
         assertFalse(p1.getInPlay().contains(dynamite));
     }
 
-    @Disabled
     @Test
     void testDynamiteNExplosePas() {
         simpleGame.setInput("");
