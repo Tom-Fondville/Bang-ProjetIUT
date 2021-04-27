@@ -157,7 +157,6 @@ public class CardsTest {
         assertTrue(discardPile.contains(mustang));
     }
 
-    @Disabled
     @Test
     void testDuel3Bang() {
         simpleGame.setInput("p3", "Bang!", "Bang!", "Bang!");
@@ -178,7 +177,6 @@ public class CardsTest {
         assertTrue(discardPile.contains(bang3));
     }
 
-    @Disabled
     @Test
     void testDuel3BangPass() {
         simpleGame.setInput("p3", "");
@@ -256,7 +254,6 @@ public class CardsTest {
         assertEquals(4, p5.getHealthPoints());  // rmq: le Shériff a 5 PV max
     }
 
-    @Disabled
     @Test
     void testGeneralStore() {
         simpleGame.setInput("Bang!", "Bang!", "Missed!");
@@ -404,7 +401,6 @@ public class CardsTest {
         assertEquals(3, p1.getWeaponRange());
     }
 
-    @Disabled
     @Test
     void testRevCarabine() {
         Card revCarabine = new RevCarabine(1, CardSuit.HEART);
@@ -414,7 +410,6 @@ public class CardsTest {
         assertEquals(4, p1.getWeaponRange());
     }
 
-    @Disabled
     @Test
     void testSchofield() {
         Card schofield = new Schofield(1, CardSuit.HEART);
@@ -424,7 +419,6 @@ public class CardsTest {
         assertEquals(2, p1.getWeaponRange());
     }
 
-    @Disabled
     @Test
     void testScope() {
         Card scope = new Scope(1, CardSuit.HEART);
