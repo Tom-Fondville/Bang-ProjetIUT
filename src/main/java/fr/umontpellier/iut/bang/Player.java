@@ -530,6 +530,10 @@ public class Player {
     public void playFromHand(Card card) {
         if (hand.remove(card)) {
             card.playedBy(this);
+
+            if (bangCharacter.getName().equals("Suzy Lafayette") && hand.isEmpty()) {
+                drawToHand();
+            }
         }
     }
 
