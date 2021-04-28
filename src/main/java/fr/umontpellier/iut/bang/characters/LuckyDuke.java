@@ -14,13 +14,14 @@ public class LuckyDuke extends BangCharacter {
 
     @Override
     public Card randomDraw(Player player) {
-        List<Card> drawnCards = new ArrayList<>();
-        drawnCards.add(player.getGame().drawCard());
-        drawnCards.add(player.getGame().drawCard());
-        return player.chooseCard(
-                "Choisissez la carte à dégainer",
-                drawnCards,
-                true,
-                false);
+        Card card1 = player.getGame().drawCard();
+        player.discard(card1);
+        Card card2 = player.getGame().drawCard();
+        player.discard(card2);
+        List<String> drawnCardsPoker = new ArrayList<>();
+        drawnCardsPoker.add(card1.getPokerString());
+        drawnCardsPoker.add(card2.getPokerString());
+        if (card1.getPokerString().equals(player.choose("Choisissez la valeur poker qui vous convient",drawnCardsPoker,true,false))) return card1;
+        return card2;
     }
 }
