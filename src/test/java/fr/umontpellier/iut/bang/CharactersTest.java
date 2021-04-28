@@ -147,7 +147,6 @@ public class CharactersTest {
         assertTrue(p2.getHand().isEmpty());
     }
 
-    @Disabled
     @Test
     void testJesseJonesPiocheDansLaMainDunJoueur() {
         makeGameWithCharacter(new JesseJones());
@@ -167,7 +166,6 @@ public class CharactersTest {
         assertTrue(p1.getHand().contains(bang));
     }
 
-    @Disabled
     @Test
     void testJesseJonesNePiochePasDansLaMainDunJoueur() {
         makeGameWithCharacter(new JesseJones());
@@ -263,7 +261,6 @@ public class CharactersTest {
         assertTrue(discardPile.contains(pique));
     }
 
-    @Disabled
     @Test
     void testPaulRegret() {
         makeGameWithCharacter(new PaulRegret());
@@ -347,7 +344,6 @@ public class CharactersTest {
         assertTrue(p2.getHand().isEmpty());
     }
 
-    @Disabled
     @Test
     void testSuzyLafayette() {
         makeGameWithCharacter(new SuzyLafayette());

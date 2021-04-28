@@ -188,19 +188,25 @@ public class Player {
      */
     public void decrementHealth(int n, Player attacker) {
         healthPoints -= n;
-        if (healthPoints <= 0) {
-            while (healthPoints < 0) {
-                Optional<Card> beer = hand.stream().filter(c -> c.getName().equals("Beer")).findAny();
-                if (beer.isPresent() && beer.get().canPlayFromHand(this)) {
-                    this.playFromHand(beer.get());
+        if (isDead()) {
+            while (isDead() && hand.stream().anyMatch(c -> c.getName().equals("Beer"))) {
+                Card beer = hand.stream().filter(c -> c.getName().equals("Beer")).collect(Collectors.toList()).get(0);
+                if (beer.canPlayFromHand(this)) {
+                    this.playFromHand(beer);
                 }
             }
+            if (isDead()) {
+                game.removePlayer(this);
+            }
         }
-        if (bangCharacter.getName().equals("El Gringo")) {
-            for (int i = 0; i < n; i++) {
-                Card card = attacker.removeRandomCardFromHand();
-                if (card != null) {
-                    this.addToHand(card);
+
+        if (!isDead()) {
+            if (attacker != null && bangCharacter.getName().equals("El Gringo")) {
+                for (int i = 0; i < n; i++) {
+                    Card card = attacker.removeRandomCardFromHand();
+                    if (card != null) {
+                        this.addToHand(card);
+                    }
                 }
             }
         }
@@ -224,6 +230,10 @@ public class Player {
         return c != null && c.getName().equals("Missed!");
     }
 
+    public boolean barrelDraw() {
+        return this.getInPlay().stream().anyMatch(c -> c.getName().equals("Barrel")) && this.randomDraw().getSuit().equals(CardSuit.HEART);
+    }
+
     /**
      * @param player autre joueur
      * @return distance à laquelle le joueur courant voit le joueur passé en paramètre
@@ -232,6 +242,7 @@ public class Player {
         int distance = game.getPlayerDistance(this, player);
         if (inPlay.stream().anyMatch(c -> c.getName().equals("Scope"))) distance--;
         if (player.getInPlay().stream().anyMatch(c -> c.getName().equals("Mustang"))) distance++;
+        if (player.bangCharacter.getName().equals("Paul Regret")) distance++;
         return Math.max(distance, 1);
     }
 
@@ -529,6 +540,10 @@ public class Player {
     public void playFromHand(Card card) {
         if (hand.remove(card)) {
             card.playedBy(this);
+
+            if (bangCharacter.getName().equals("Suzy Lafayette") && hand.isEmpty()) {
+                drawToHand();
+            }
         }
     }
 
@@ -568,12 +583,24 @@ public class Player {
             if (ds.getSuit().equals(CardSuit.SPADE) && ds.getValue() >= 2 && ds.getValue() <= 9) {
                 decrementHealth(3, null);
                 discard(dynamite.get());
-            }
-            else {
+            } else {
                 Player leftPlayer = getOtherPlayers().get(0);
                 leftPlayer.addToInPlay(dynamite.get());
             }
             removeFromInPlay(dynamite.get());
+            if (isDead()) return;
+        }
+
+        Optional<BlueCard> jail = inPlay.stream().filter(b -> b.getName().equals("Jail")).findFirst();
+        if (jail.isPresent()) {
+            Card ds = randomDraw();
+
+            discard(jail.get());
+            removeFromInPlay(jail.get());
+
+            if (!ds.getSuit().equals(CardSuit.HEART)) {
+                return;
+            }
         }
 
         // phase 1: piocher des cartes

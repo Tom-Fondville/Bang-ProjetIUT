@@ -10,6 +10,8 @@ public class Saloon extends OrangeCard {
 
     @Override
     public void playedBy(Player player) {
+        super.playedBy(player);
+
         for (Player p:player.getGame().getPlayers()) {
             p.incrementHealth(1);
         }
