@@ -188,19 +188,25 @@ public class Player {
      */
     public void decrementHealth(int n, Player attacker) {
         healthPoints -= n;
-        if (healthPoints <= 0) {
-            while (healthPoints < 0) {
-                Optional<Card> beer = hand.stream().filter(c -> c.getName().equals("Beer")).findAny();
-                if (beer.isPresent() && beer.get().canPlayFromHand(this)) {
-                    this.playFromHand(beer.get());
+        if (isDead()) {
+            while (isDead() && hand.stream().anyMatch(c -> c.getName().equals("Beer"))) {
+                Card beer = hand.stream().filter(c -> c.getName().equals("Beer")).collect(Collectors.toList()).get(0);
+                if (beer.canPlayFromHand(this)) {
+                    this.playFromHand(beer);
                 }
             }
+            if (isDead()) {
+                game.removePlayer(this);
+            }
         }
-        if (attacker != null && bangCharacter.getName().equals("El Gringo")) {
-            for (int i = 0; i < n; i++) {
-                Card card = attacker.removeRandomCardFromHand();
-                if (card != null) {
-                    this.addToHand(card);
+
+        if (!isDead()) {
+            if (attacker != null && bangCharacter.getName().equals("El Gringo")) {
+                for (int i = 0; i < n; i++) {
+                    Card card = attacker.removeRandomCardFromHand();
+                    if (card != null) {
+                        this.addToHand(card);
+                    }
                 }
             }
         }
