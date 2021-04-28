@@ -13,7 +13,7 @@ public class Jail extends BlueCard {
     @Override
     public void playedBy(Player player) {
         Player p = player.choosePlayer("Choisissez un joueur à mettre en prison (vous ne pouvez pas mettre le Sheriff en prison)",
-                player.getOtherPlayers().stream().filter(c -> !c.getRole().equals(Role.SHERIFF)).collect(Collectors.toList()),
+                player.getOtherPlayers().stream().filter(c -> !c.getRole().equals(Role.SHERIFF) && c.getCardInPlay("Jail") == null).collect(Collectors.toList()),
                 false);
 
         if (p != null) {
