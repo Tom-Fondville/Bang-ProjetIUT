@@ -101,7 +101,6 @@ public class CardsTest {
         assertTrue(discardPile.contains(beer));
     }
 
-    @Disabled
     @Test
     void testBeer() {
         Card beer = new Beer(1, CardSuit.HEART);
@@ -387,7 +386,6 @@ public class CardsTest {
         assertTrue(p1.getHand().contains(barrel));
     }
 
-    @Disabled
     @Test
     void testRemington() {
         Card remington = new Remington(1, CardSuit.HEART);
@@ -465,7 +463,6 @@ public class CardsTest {
         assertTrue(discardPile.contains(bang3));
     }
 
-    @Disabled
     @Test
     void testWellsFargo() {
         Card wellsFargo = new WellsFargo(1, CardSuit.HEART);
@@ -484,7 +481,6 @@ public class CardsTest {
         assertTrue(p1.getHand().contains(bang));
     }
 
-    @Disabled
     @Test
     void testWinchester() {
         Card winchester = new Winchester(1, CardSuit.HEART);
