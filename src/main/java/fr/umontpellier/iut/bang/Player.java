@@ -196,7 +196,7 @@ public class Player {
                 }
             }
         }
-        if (bangCharacter.getName().equals("El Gringo")) {
+        if (attacker != null && bangCharacter.getName().equals("El Gringo")) {
             for (int i = 0; i < n; i++) {
                 Card card = attacker.removeRandomCardFromHand();
                 if (card != null) {
