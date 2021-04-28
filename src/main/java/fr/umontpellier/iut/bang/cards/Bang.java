@@ -28,13 +28,7 @@ public class Bang extends OrangeCard {
                     rangePlayers,
                     false);
 
-            if (!barrelDraw(p) && !p.askMissed()) {
-                p.decrementHealth(1, player);
-            }
+            if (!p.barrelDraw() && !p.askMissed()) p.decrementHealth(1, player);
         }
-    }
-
-    private boolean barrelDraw(Player p) {
-        return p.getInPlay().stream().anyMatch(c -> c.getName().equals("Barrel")) && p.randomDraw().getSuit().equals(CardSuit.HEART);
     }
 }

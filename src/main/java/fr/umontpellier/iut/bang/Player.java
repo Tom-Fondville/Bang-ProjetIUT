@@ -230,6 +230,10 @@ public class Player {
         return c != null && c.getName().equals("Missed!");
     }
 
+    public boolean barrelDraw() {
+        return this.getInPlay().stream().anyMatch(c -> c.getName().equals("Barrel")) && this.randomDraw().getSuit().equals(CardSuit.HEART);
+    }
+
     /**
      * @param player autre joueur
      * @return distance à laquelle le joueur courant voit le joueur passé en paramètre
