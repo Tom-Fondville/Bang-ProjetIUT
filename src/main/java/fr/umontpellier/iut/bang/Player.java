@@ -588,6 +588,7 @@ public class Player {
                 leftPlayer.addToInPlay(dynamite.get());
             }
             removeFromInPlay(dynamite.get());
+            if (isDead()) return;
         }
 
         Optional<BlueCard> jail = inPlay.stream().filter(b -> b.getName().equals("Jail")).findFirst();
