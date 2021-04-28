@@ -441,7 +441,6 @@ public class CardsTest {
         assertTrue(p1.getHand().contains(mustang));
     }
 
-    @Disabled
     @Test
     void testVolcanic() {
         simpleGame.setInput("Bang!", "p2", "Bang!", "p2", "Bang!", "p2", "");

@@ -607,15 +607,22 @@ public class Player {
         bangCharacter.onStartTurn(this);
 
         // phase 2: jouer des cartes
+        boolean bang = false;
         while (true) {
+            boolean volcanic = weapon != null && weapon.getName().equals("Volcanic");
+
             List<Card> possibleCards = new ArrayList<>();
             for (Card c : hand) {
                 if (c.canPlayFromHand(this)) {
+                    if (!volcanic && c.getName().equals("Bang!")) {
+                        if (bang) continue;
+                    }
                     possibleCards.add(c);
                 }
             }
             Card card = chooseCard("Choisissez une carte à jouer", possibleCards, false, true);
             if (card == null) break;
+            else if (card.getName().equals("Bang!")) bang = true;
             playFromHand(card);
         }
 
