@@ -232,6 +232,7 @@ public class Player {
         int distance = game.getPlayerDistance(this, player);
         if (inPlay.stream().anyMatch(c -> c.getName().equals("Scope"))) distance--;
         if (player.getInPlay().stream().anyMatch(c -> c.getName().equals("Mustang"))) distance++;
+        if (player.bangCharacter.getName().equals("Paul Regret")) distance++;
         return Math.max(distance, 1);
     }
 

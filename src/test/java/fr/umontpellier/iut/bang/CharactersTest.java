@@ -261,7 +261,6 @@ public class CharactersTest {
         assertTrue(discardPile.contains(pique));
     }
 
-    @Disabled
     @Test
     void testPaulRegret() {
         makeGameWithCharacter(new PaulRegret());
