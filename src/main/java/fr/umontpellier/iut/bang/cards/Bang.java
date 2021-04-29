@@ -13,7 +13,8 @@ public class Bang extends OrangeCard {
 
     @Override
     public void playedBy(Player player) {
-        super.playedBy(player);
+        if (!player.getBangCharacter().getName().equals("Calamity Janet"))
+            super.playedBy(player);
 
         List<Player> rangePlayers = new ArrayList<>();
         for (Player otherPlayer : player.getOtherPlayers()) {

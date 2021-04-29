@@ -1,9 +1,6 @@
 package fr.umontpellier.iut.bang;
 
-import fr.umontpellier.iut.bang.cards.BlueCard;
-import fr.umontpellier.iut.bang.cards.Card;
-import fr.umontpellier.iut.bang.cards.CardSuit;
-import fr.umontpellier.iut.bang.cards.WeaponCard;
+import fr.umontpellier.iut.bang.cards.*;
 import fr.umontpellier.iut.bang.characters.BangCharacter;
 
 import java.util.*;
@@ -95,6 +92,10 @@ public class Player {
     public void setWeapon(WeaponCard weapon) {
         if (this.weapon != null) discard(this.weapon);
         this.weapon = weapon;
+    }
+
+    public BangCharacter getBangCharacter() {
+        return bangCharacter;
     }
 
     /**
@@ -221,15 +222,15 @@ public class Player {
      */
     public boolean askMissed() {
         Card c = null;
-        if (this.getHand().stream().anyMatch(m -> m.getName().equals("Missed!"))) {
+        if (this.getHand().stream().anyMatch(m -> m.getName().equals("Missed!") || (bangCharacter.getName().equals("Calamity Janet") && m.getName().equals("Bang!")))) {
             c = this.chooseCard(
                     "Choisissez une carte Missed!",
-                    this.getHand().stream().filter(m -> m.getName().equals("Missed!")).collect(Collectors.toList()),
+                    this.getHand().stream().filter(m -> m.getName().equals("Missed!") || (bangCharacter.getName().equals("Calamity Janet") && m.getName().equals("Bang!"))).collect(Collectors.toList()),
                     false,
                     true);
             this.discardFromHand(c);
         }
-        return c != null && c.getName().equals("Missed!");
+        return c != null && (c.getName().equals("Missed!") || bangCharacter.getName().equals("Calamity Janet") && c.getName().equals("Bang!"));
     }
 
     public boolean barrelDraw() {
@@ -627,7 +628,18 @@ public class Player {
             Card card = chooseCard("Choisissez une carte à jouer", possibleCards, false, true);
             if (card == null) break;
             else if (card.getName().equals("Bang!")) bang = true;
-            playFromHand(card);
+
+            if (bangCharacter.getName().equals("Calamity Janet")) {
+                if (card.getName().equals("Missed!")) {
+                    discardFromHand(card);
+                    card = new Bang(card.getValue(), card.getSuit());
+                    card.playedBy(this);
+                } else {
+                    playFromHand(card);
+                }
+            } else {
+                playFromHand(card);
+            }
         }
 
         // phase 3: défausser les cartes en trop
