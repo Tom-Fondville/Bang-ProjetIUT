@@ -46,8 +46,8 @@ class Main extends React.Component {
         }
 
         let buttons = [];
-        for (const [i, button] of this.state.buttons.entries()) {
-            buttons.push(<PlayerButton label={button} value={i + 1}/>);
+        for (const button of this.state.buttons) {
+            buttons.push(<PlayerButton label={button} value={button}/>);
         }
 
         return (
@@ -60,7 +60,7 @@ class Main extends React.Component {
                 <div id="piles">
                     <DrawPile size={this.state.game.draw_pile}/>
                     <div id="discard_pile">
-                        <CardsList cards={this.state.game.discard_pile} keepOrder={true}/>
+                        <CardsList cards={this.state.game.discard_pile.reverse()} keepOrder={true}/>
                     </div>
                 </div>
             </div>

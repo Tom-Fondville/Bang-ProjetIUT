@@ -69,7 +69,6 @@ public class CardsTest {
         assertEquals(4, p3.getHealthPoints());
     }
 
-    @Disabled
     @Test
     void testBarrelAvecCoeur() {
         simpleGame.setInput("p2");
@@ -86,7 +85,6 @@ public class CardsTest {
         assertTrue(discardPile.contains(beer));
     }
 
-    @Disabled
     @Test
     void testBarrelPasDeCoeur() {
         simpleGame.setInput("p2");
@@ -103,7 +101,6 @@ public class CardsTest {
         assertTrue(discardPile.contains(beer));
     }
 
-    @Disabled
     @Test
     void testBeer() {
         Card beer = new Beer(1, CardSuit.HEART);
@@ -127,6 +124,7 @@ public class CardsTest {
         assertEquals(3, p1.getHealthPoints());
     }
 
+    @Disabled
     @Test
     void testCatBalouCarteEnJeu() {
         simpleGame.setInput("p3", "Mustang");
@@ -142,6 +140,7 @@ public class CardsTest {
         assertTrue(discardPile.contains(mustang));
     }
 
+    @Disabled
     @Test
     void testCatBalouCarteEnMain() {
         simpleGame.setInput("p3", "");
@@ -154,7 +153,6 @@ public class CardsTest {
         assertEquals(0, p3.getHand().size());
         assertTrue(discardPile.contains(mustang));
     }
-
 
     @Test
     void testDuel3Bang() {
@@ -176,7 +174,6 @@ public class CardsTest {
         assertTrue(discardPile.contains(bang3));
     }
 
-    @Disabled
     @Test
     void testDuel3BangPass() {
         simpleGame.setInput("p3", "");
@@ -192,7 +189,6 @@ public class CardsTest {
         assertFalse(discardPile.contains(bang));
     }
 
-    @Disabled
     @Test
     void testDynamiteExplose() {
         simpleGame.setInput("", "Missed!", "Missed!");
@@ -212,7 +208,6 @@ public class CardsTest {
         assertFalse(p1.getInPlay().contains(dynamite));
     }
 
-    @Disabled
     @Test
     void testDynamiteNExplosePas() {
         simpleGame.setInput("");
@@ -256,7 +251,6 @@ public class CardsTest {
         assertEquals(4, p5.getHealthPoints());  // rmq: le Shériff a 5 PV max
     }
 
-    @Disabled
     @Test
     void testGeneralStore() {
         simpleGame.setInput("Bang!", "Bang!", "Missed!");
@@ -281,7 +275,7 @@ public class CardsTest {
         assertEquals("Beer", p2.getHand().get(0).getName());
     }
 
-
+    @Disabled
     @Test
     void testIndians() {
         simpleGame.setInput("Bang!", "Missed!", "", "Bang!");
@@ -304,7 +298,6 @@ public class CardsTest {
         assertEquals(5, p5.getHealthPoints());  // rmq: le Shériff a 5 PV max
     }
 
-    @Disabled
     @Test
     void testJailNeSortPas() {
         simpleGame.setInput("p3", "Saloon", "");
@@ -323,7 +316,6 @@ public class CardsTest {
         assertTrue(p3.getHand().contains(saloon));
     }
 
-    @Disabled
     @Test
     void testJailSortAvecCoeur() {
         simpleGame.setInput("p3", "Saloon", "");
@@ -394,7 +386,6 @@ public class CardsTest {
         assertTrue(p1.getHand().contains(barrel));
     }
 
-    @Disabled
     @Test
     void testRemington() {
         Card remington = new Remington(1, CardSuit.HEART);
@@ -404,7 +395,6 @@ public class CardsTest {
         assertEquals(3, p1.getWeaponRange());
     }
 
-    @Disabled
     @Test
     void testRevCarabine() {
         Card revCarabine = new RevCarabine(1, CardSuit.HEART);
@@ -414,7 +404,6 @@ public class CardsTest {
         assertEquals(4, p1.getWeaponRange());
     }
 
-    @Disabled
     @Test
     void testSchofield() {
         Card schofield = new Schofield(1, CardSuit.HEART);
@@ -424,7 +413,6 @@ public class CardsTest {
         assertEquals(2, p1.getWeaponRange());
     }
 
-    @Disabled
     @Test
     void testScope() {
         Card scope = new Scope(1, CardSuit.HEART);
@@ -453,7 +441,6 @@ public class CardsTest {
         assertTrue(p1.getHand().contains(mustang));
     }
 
-    @Disabled
     @Test
     void testVolcanic() {
         simpleGame.setInput("Bang!", "p2", "Bang!", "p2", "Bang!", "p2", "");
@@ -475,7 +462,6 @@ public class CardsTest {
         assertTrue(discardPile.contains(bang3));
     }
 
-    @Disabled
     @Test
     void testWellsFargo() {
         Card wellsFargo = new WellsFargo(1, CardSuit.HEART);
@@ -494,7 +480,6 @@ public class CardsTest {
         assertTrue(p1.getHand().contains(bang));
     }
 
-    @Disabled
     @Test
     void testWinchester() {
         Card winchester = new Winchester(1, CardSuit.HEART);

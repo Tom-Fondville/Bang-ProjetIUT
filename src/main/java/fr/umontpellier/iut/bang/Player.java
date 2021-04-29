@@ -1,8 +1,6 @@
 package fr.umontpellier.iut.bang;
 
-import fr.umontpellier.iut.bang.cards.BlueCard;
-import fr.umontpellier.iut.bang.cards.Card;
-import fr.umontpellier.iut.bang.cards.WeaponCard;
+import fr.umontpellier.iut.bang.cards.*;
 import fr.umontpellier.iut.bang.characters.BangCharacter;
 
 import java.util.*;
@@ -96,6 +94,10 @@ public class Player {
         this.weapon = weapon;
     }
 
+    public BangCharacter getBangCharacter() {
+        return bangCharacter;
+    }
+
     /**
      * @return la portée de l'arme équipée (1 si aucune arme équipée)
      */
@@ -187,24 +189,31 @@ public class Player {
      */
     public void decrementHealth(int n, Player attacker) {
         healthPoints -= n;
-        if (healthPoints <= 0) {
-            while (healthPoints < 0) {
-                Optional<Card> beer = hand.stream().filter(c -> c.getName().equals("Beer")).findAny();
-                if (beer.isPresent() && beer.get().canPlayFromHand(this)) {
-                    this.playFromHand(beer.get());
+        if (isDead()) {
+            while (isDead() && hand.stream().anyMatch(c -> c.getName().equals("Beer"))) {
+                Card beer = hand.stream().filter(c -> c.getName().equals("Beer")).collect(Collectors.toList()).get(0);
+                if (beer.canPlayFromHand(this)) {
+                    this.playFromHand(beer);
                 }
             }
+            if (isDead()) {
+                getHand().forEach(this::discard);
+                getInPlay().forEach(this::discard);
+                game.removePlayer(this);
+            }
         }
-        if (bangCharacter.getName().equals("El Gringo")) {
-            for (int i = 0; i < attacker.getHealthPoints(); i++) {
-                Card card = attacker.removeRandomCardFromHand();
-                if (card != null) {
-                    this.addToHand(card);
+
+        if (!isDead()) {
+            if (attacker != null && bangCharacter.getName().equals("El Gringo")) {
+                for (int i = 0; i < n; i++) {
+                    Card card = attacker.removeRandomCardFromHand();
+                    if (card != null) {
+                        this.addToHand(card);
+                    }
                 }
             }
         }
     }
-
 
     /**
      * demande au joueur de choisir une carte Missed!
@@ -213,15 +222,19 @@ public class Player {
      */
     public boolean askMissed() {
         Card c = null;
-        if (this.getHand().stream().anyMatch(m -> m.getName().equals("Missed!"))) {
+        if (this.getHand().stream().anyMatch(m -> m.getName().equals("Missed!") || (bangCharacter.getName().equals("Calamity Janet") && m.getName().equals("Bang!")))) {
             c = this.chooseCard(
                     "Choisissez une carte Missed!",
-                    this.getHand().stream().filter(m -> m.getName().equals("Missed!")).collect(Collectors.toList()),
+                    this.getHand().stream().filter(m -> m.getName().equals("Missed!") || (bangCharacter.getName().equals("Calamity Janet") && m.getName().equals("Bang!"))).collect(Collectors.toList()),
                     false,
                     true);
             this.discardFromHand(c);
         }
-        return c != null && c.getName().equals("Missed!");
+        return c != null && (c.getName().equals("Missed!") || bangCharacter.getName().equals("Calamity Janet") && c.getName().equals("Bang!"));
+    }
+
+    public boolean barrelDraw() {
+        return this.getInPlay().stream().anyMatch(c -> c.getName().equals("Barrel")) && this.randomDraw().getSuit().equals(CardSuit.HEART);
     }
 
     /**
@@ -232,6 +245,7 @@ public class Player {
         int distance = game.getPlayerDistance(this, player);
         if (inPlay.stream().anyMatch(c -> c.getName().equals("Scope"))) distance--;
         if (player.getInPlay().stream().anyMatch(c -> c.getName().equals("Mustang"))) distance++;
+        if (player.bangCharacter.getName().equals("Paul Regret")) distance++;
         return Math.max(distance, 1);
     }
 
@@ -529,6 +543,10 @@ public class Player {
     public void playFromHand(Card card) {
         if (hand.remove(card)) {
             card.playedBy(this);
+
+            if (bangCharacter.getName().equals("Suzy Lafayette") && hand.isEmpty()) {
+                drawToHand();
+            }
         }
     }
 
@@ -561,21 +579,67 @@ public class Player {
      */
     public void playTurn() {
         // phase 0: setup et résolution des effets préliminaires (dynamite, prison, etc...)
+        Optional<BlueCard> dynamite = inPlay.stream().filter(b -> b.getName().equals("Dynamite")).findFirst();
+        if (dynamite.isPresent()) {
+            Card ds = randomDraw();
+
+            if (ds.getSuit().equals(CardSuit.SPADE) && ds.getValue() >= 2 && ds.getValue() <= 9) {
+                decrementHealth(3, null);
+                if (!isDead()) {
+                    discard(dynamite.get());
+                }
+            } else {
+                Player leftPlayer = getOtherPlayers().get(0);
+                leftPlayer.addToInPlay(dynamite.get());
+            }
+            removeFromInPlay(dynamite.get());
+            if (isDead()) return;
+        }
+
+        Optional<BlueCard> jail = inPlay.stream().filter(b -> b.getName().equals("Jail")).findFirst();
+        if (jail.isPresent()) {
+            Card ds = randomDraw();
+
+            discard(jail.get());
+            removeFromInPlay(jail.get());
+
+            if (!ds.getSuit().equals(CardSuit.HEART)) {
+                return;
+            }
+        }
 
         // phase 1: piocher des cartes
         bangCharacter.onStartTurn(this);
 
         // phase 2: jouer des cartes
+        boolean bang = false;
         while (true) {
+            boolean volcanic = weapon != null && weapon.getName().equals("Volcanic");
+
             List<Card> possibleCards = new ArrayList<>();
             for (Card c : hand) {
                 if (c.canPlayFromHand(this)) {
+                    if (!volcanic && c.getName().equals("Bang!")) {
+                        if (bang) continue;
+                    }
                     possibleCards.add(c);
                 }
             }
             Card card = chooseCard("Choisissez une carte à jouer", possibleCards, false, true);
             if (card == null) break;
-            playFromHand(card);
+            else if (card.getName().equals("Bang!")) bang = true;
+
+            if (bangCharacter.getName().equals("Calamity Janet")) {
+                if (card.getName().equals("Missed!")) {
+                    discardFromHand(card);
+                    card = new Bang(card.getValue(), card.getSuit());
+                    card.playedBy(this);
+                } else {
+                    playFromHand(card);
+                }
+            } else {
+                playFromHand(card);
+            }
         }
 
         // phase 3: défausser les cartes en trop

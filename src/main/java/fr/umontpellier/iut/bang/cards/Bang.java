@@ -13,7 +13,8 @@ public class Bang extends OrangeCard {
 
     @Override
     public void playedBy(Player player) {
-        super.playedBy(player);
+        if (!player.getBangCharacter().getName().equals("Calamity Janet"))
+            super.playedBy(player);
 
         List<Player> rangePlayers = new ArrayList<>();
         for (Player otherPlayer : player.getOtherPlayers()) {
@@ -22,15 +23,13 @@ public class Bang extends OrangeCard {
             }
         }
 
-        if (rangePlayers.size() > 1) {
+        if (!rangePlayers.isEmpty()) {
             Player p = player.choosePlayer(
                     "Choisissez un joueur à attaquer",
                     rangePlayers,
                     false);
 
-            if (!p.askMissed()) {
-                p.decrementHealth(1, player);
-            }
+            if (!p.barrelDraw() && !p.askMissed()) p.decrementHealth(1, player);
         }
     }
 }
