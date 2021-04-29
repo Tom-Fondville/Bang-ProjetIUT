@@ -23,9 +23,10 @@ public class Duel extends OrangeCard {
         Card card;
         do {
             cur = cur == player2 ? player : player2;
+            Player finalCur = cur;
             card = cur.chooseCard(
                     "Vous pouvez jouer une carte Bang!",
-                    cur.getHand().stream().filter(c -> c.getName().equals("Bang!")).collect(Collectors.toList()),
+                    cur.getHand().stream().filter(c -> c.getName().equals("Bang!") || (finalCur.getBangCharacter().getName().equals("Calamity Janet") && c.getName().equals("Missed!"))).collect(Collectors.toList()),
                     false, true);
             cur.discardFromHand(card);
         } while (card != null);
