@@ -196,6 +196,8 @@ public class Player {
                 }
             }
             if (isDead()) {
+                getHand().forEach(this::discard);
+                getInPlay().forEach(this::discard);
                 game.removePlayer(this);
             }
         }
@@ -582,7 +584,9 @@ public class Player {
 
             if (ds.getSuit().equals(CardSuit.SPADE) && ds.getValue() >= 2 && ds.getValue() <= 9) {
                 decrementHealth(3, null);
-                discard(dynamite.get());
+                if (!isDead()) {
+                    discard(dynamite.get());
+                }
             } else {
                 Player leftPlayer = getOtherPlayers().get(0);
                 leftPlayer.addToInPlay(dynamite.get());
