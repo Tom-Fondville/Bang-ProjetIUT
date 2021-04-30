@@ -170,7 +170,7 @@ public class Game {
      */
     public int getPlayerDistance(Player player1, Player player2) {
         int distance = Math.abs(players.indexOf(player1) - players.indexOf(player2));
-        if (distance > players.size()/2) return players.size() - distance;
+        if (distance > players.size() / 2) return players.size() - distance;
         else return distance;
     }
 
@@ -279,7 +279,27 @@ public class Game {
      * Teste si la partie est terminée et met à jour les attributs {@code finished} et {@code winners}.
      */
     private void updateGameFinished() {
-        throw new RuntimeException("Méthode non implémentée !");
+        // le shérif et ses adjoints (DEPUTY) gagnent si le shérif est vivant alors que tous les hors-la-loi et le renégat (RENEGADE) sont morts
+        if (!sheriffPlayer.isDead() && renegadePlayer.isDead() && outlawPlayers.stream().allMatch(Player::isDead)) {
+            winners.add(sheriffPlayer);
+            winners.addAll(deputyPlayers);
+            finished = true;
+        }
+
+        // le renégat (RENEGADE) gagne s'il réussit à tuer le shérif en dernier (tous les autres joueurs étant déjà morts)
+        else if (!renegadePlayer.isDead() && sheriffPlayer.isDead() && outlawPlayers.stream().allMatch(Player::isDead) && deputyPlayers.stream().allMatch(Player::isDead)) {
+            winners.add(renegadePlayer);
+            finished = true;
+        }
+
+        // les hors-la-loi (OUTLAW) gagnent dans tous les autres cas :
+        // - si le shérif est mort et un des hors-la-loi est encore en vie
+        // - si le shérif est mort et il reste deux autres joueurs vivant dans la partie
+        else if ((sheriffPlayer.isDead() && outlawPlayers.stream().anyMatch(p -> !p.isDead())) ||
+                 (sheriffPlayer.isDead() && players.stream().filter(p -> !p.getRole().equals(SHERIFF) && !p.isDead()).count() == 2)) {
+            winners.addAll(outlawPlayers);
+            finished = true;
+        }
     }
 
     /**
@@ -338,7 +358,7 @@ public class Game {
             for (int i = 0; i < 5; i++) {
                 joiner.add(iterator.next().toString());
             }
-            discardString = String.format(": ..., %s", joiner.toString());
+            discardString = String.format(": ..., %s", joiner);
         } else if (n > 0) {
             StringJoiner joiner = new StringJoiner(", ");
             for (Card c : discardPile) {
@@ -350,8 +370,8 @@ public class Game {
         }
 
         String generalInfo = String.format("-- Tour de %s --\n", currentPlayer.getName()) +
-                String.format("Pioche (%d)\n", drawPile.size()) +
-                String.format("Défausse (%d)%s\n\n", discardPile.size(), discardString);
+                             String.format("Pioche (%d)\n", drawPile.size()) +
+                             String.format("Défausse (%d)%s\n\n", discardPile.size(), discardString);
 
         StringJoiner joiner = new StringJoiner("\n");
         int index = players.indexOf(currentPlayer);
@@ -389,7 +409,7 @@ public class Game {
             playersJoiner.add(p.toJSON());
         }
         joiner.add(String.format("\"players\": [%s]", playersJoiner));
-        return "{" + joiner.toString() + "}";
+        return "{" + joiner + "}";
     }
 
     /**

@@ -2,7 +2,6 @@ package fr.umontpellier.iut.bang.cards;
 
 import fr.umontpellier.iut.bang.Player;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class Duel extends OrangeCard {
@@ -14,29 +13,25 @@ public class Duel extends OrangeCard {
     @Override
     public void playedBy(Player player) {
         super.playedBy(player);
-        //choie de l'adversaire
-        List<Player> otherPlayer = player.getOtherPlayers();
+
         Player player2 = player.choosePlayer(
-                "Choissiez qui prendre en duel",
-                otherPlayer,
+                "Choisissez qui prendre en duel",
+                player.getOtherPlayers(),
                 false);
 
+        Player cur = player;
+        Card card;
+        do {
+            cur = cur == player2 ? player : player2;
+            Player finalCur = cur;
+            card = cur.chooseCard(
+                    "Vous pouvez jouer une carte Bang!",
+                    cur.getHand().stream().filter(c -> c.getName().equals("Bang!") || (finalCur.getBangCharacter().getName().equals("Calamity Janet") && c.getName().equals("Missed!"))).collect(Collectors.toList()),
+                    false, true);
+            cur.discardFromHand(card);
+        } while (card != null);
 
-        boolean b = true;
-        while (true) {
-            if (b) {
-                Card cardP2 = player2.chooseCard("Vous pouvez jouer une carte Bang!", player2.getHand().stream().filter(c -> c.getName().equals("Bang!")).collect(Collectors.toList()), false, true);
-                if (cardP2 == null) break;
-                player2.discardFromHand(cardP2);
-                b = false;
-            } else {
-                Card cardP = player.chooseCard("Vous pouvez jouer une carte Bang!", player.getHand().stream().filter(c -> c.getName().equals("Bang!")).collect(Collectors.toList()), false, true);
-                if (cardP == null) break;
-                player.discardFromHand(cardP);
-                b = true;
-            }
-        }
-        if (b) player2.decrementHealth(1, player);
+        if (cur == player2) player2.decrementHealth(1, player);
         else player.decrementHealth(1, player2);
     }
 

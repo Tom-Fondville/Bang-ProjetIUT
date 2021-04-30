@@ -13,7 +13,8 @@ public class Bang extends OrangeCard {
 
     @Override
     public void playedBy(Player player) {
-        super.playedBy(player);
+        if (!player.getBangCharacter().getName().equals("Calamity Janet"))
+            super.playedBy(player);
 
         List<Player> rangePlayers = new ArrayList<>();
         for (Player otherPlayer : player.getOtherPlayers()) {
@@ -28,13 +29,18 @@ public class Bang extends OrangeCard {
                     rangePlayers,
                     false);
 
-            if (!barrelDraw(p) && !p.askMissed()) {
-                p.decrementHealth(1, player);
-            }
-        }
-    }
 
-    private boolean barrelDraw(Player p) {
-        return p.getInPlay().stream().anyMatch(c -> c.getName().equals("Barrel")) && p.randomDraw().getSuit().equals(CardSuit.HEART);
+            if (player.getBangCharacter().getName().equals("Slab the Killer")){
+                boolean jourdonaisWin,barrelWin,haveMissedCard1,haveMissedCard2;
+                jourdonaisWin = (p.getBangCharacter().getName().equals("Jourdonnais") && p.randomDraw().getSuit().equals(CardSuit.HEART));
+                barrelWin = p.barrelDraw();
+                if (jourdonaisWin && barrelWin) return;
+                haveMissedCard1 = p.askMissed();
+                if ((jourdonaisWin || barrelWin) && haveMissedCard1) return;
+                haveMissedCard2 = p.askMissed();
+                if ((jourdonaisWin || barrelWin || haveMissedCard1) && haveMissedCard2) return;
+                p.decrementHealth(1, player);
+            } else if (!(p.getBangCharacter().getName().equals("Jourdonnais") && p.randomDraw().getSuit().equals(CardSuit.HEART)) && !p.barrelDraw() && !p.askMissed()) p.decrementHealth(1, player);
+        }
     }
 }

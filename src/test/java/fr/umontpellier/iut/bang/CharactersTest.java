@@ -46,7 +46,6 @@ public class CharactersTest {
         }));
     }
 
-    @Disabled
     @Test
     void testBartCassidy() {
         makeGameWithCharacter(new BartCassidy());
@@ -59,6 +58,11 @@ public class CharactersTest {
         drawPile.push(jail);
         p2.playFromHand(bang);
         assertTrue(p1.getHand().contains(jail));
+
+        p1.incrementHealth(1);
+        assertEquals(4, p1.getHealthPointsMax());
+        p1.decrementHealth(3, null);
+        assertEquals(4, p1.getHand().size());
     }
 
     @Test
@@ -100,7 +104,6 @@ public class CharactersTest {
         assertTrue(p1.getHand().contains(volcanic));
     }
 
-    @Disabled
     @Test
     void testCalamityJanetJoueMissedCommeUnBang() {
         makeGameWithCharacter(new CalamityJanet());
@@ -114,7 +117,6 @@ public class CharactersTest {
         assertTrue(discardPile.contains(missed));
     }
 
-    @Disabled
     @Test
     void testCalamityJanetJoueBangCommeUnMissed() {
         makeGameWithCharacter(new CalamityJanet());
@@ -147,7 +149,6 @@ public class CharactersTest {
         assertTrue(p2.getHand().isEmpty());
     }
 
-    @Disabled
     @Test
     void testJesseJonesPiocheDansLaMainDunJoueur() {
         makeGameWithCharacter(new JesseJones());
@@ -167,7 +168,6 @@ public class CharactersTest {
         assertTrue(p1.getHand().contains(bang));
     }
 
-    @Disabled
     @Test
     void testJesseJonesNePiochePasDansLaMainDunJoueur() {
         makeGameWithCharacter(new JesseJones());
@@ -187,9 +187,8 @@ public class CharactersTest {
         assertTrue(p1.getHand().contains(beer));
     }
 
-    @Disabled
     @Test
-    void testJoudonnaisDegaineCoeur() {
+    void testJourdonnaisDegaineCoeur() {
         makeGameWithCharacter(new Jourdonnais());
         assertEquals(4, p1.getHealthPointsMax());
         game.setInput("p1");
@@ -204,9 +203,8 @@ public class CharactersTest {
         assertTrue(discardPile.contains(coeur));
     }
 
-    @Disabled
     @Test
-    void testJoudonnaisDegainePique() {
+    void testJourdonnaisDegainePique() {
         makeGameWithCharacter(new Jourdonnais());
         assertEquals(4, p1.getHealthPointsMax());
         game.setInput("p1");
@@ -241,7 +239,6 @@ public class CharactersTest {
         assertEquals(beer, drawPile.peek());
     }
 
-    @Disabled
     @Test
     void testLuckyDuke() {
         makeGameWithCharacter(new LuckyDuke());
@@ -263,7 +260,6 @@ public class CharactersTest {
         assertTrue(discardPile.contains(pique));
     }
 
-    @Disabled
     @Test
     void testPaulRegret() {
         makeGameWithCharacter(new PaulRegret());
@@ -274,7 +270,6 @@ public class CharactersTest {
         assertTrue(p1.getPlayersInRange(1).contains(p2));
     }
 
-    @Disabled
     @Test
     void testPedroRamirezPiocheDansLaDefausse() {
         makeGameWithCharacter(new PedroRamirez());
@@ -294,7 +289,6 @@ public class CharactersTest {
         assertEquals(bang, drawPile.peek());
     }
 
-    @Disabled
     @Test
     void testPedroRamirezNePiochePasDansLaDefausse() {
         makeGameWithCharacter(new PedroRamirez());
@@ -314,7 +308,6 @@ public class CharactersTest {
         assertEquals(dynamite, discardPile.peek());
     }
 
-    @Disabled
     @Test
     void testRoseDoolan() {
         makeGameWithCharacter(new RoseDoolan());
@@ -326,7 +319,6 @@ public class CharactersTest {
         assertFalse(p3.getPlayersInRange(1).contains(p1));
     }
 
-    @Disabled
     @Test
     void testSlabTheKiller() {
         makeGameWithCharacter(new SlabTheKiller());
@@ -347,7 +339,6 @@ public class CharactersTest {
         assertTrue(p2.getHand().isEmpty());
     }
 
-    @Disabled
     @Test
     void testSuzyLafayette() {
         makeGameWithCharacter(new SuzyLafayette());
