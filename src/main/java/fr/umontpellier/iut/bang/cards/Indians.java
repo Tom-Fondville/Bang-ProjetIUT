@@ -16,15 +16,14 @@ public class Indians extends OrangeCard {
         for (Player p : player.getOtherPlayers()) {
             Card b = p.chooseCard(
                     "Défaussez-vous d'une carte Bang!",
-                    p.getHand().stream().filter(m -> m.getName().equals("Bang!")).collect(Collectors.toList()),
+                    p.getHand().stream().filter(m -> m.getName().equals("Bang!") || p.getBangCharacter().getName().equals("Calamity Janet") && m.getName().equals("Missed!")).collect(Collectors.toList()),
                     false,
                     true);
 
             if (b != null) {
                 p.removeFromHand(b);
                 p.discard(b);
-            }
-            else {
+            } else {
                 p.decrementHealth(1, null);
             }
         }
