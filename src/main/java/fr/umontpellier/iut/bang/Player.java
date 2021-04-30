@@ -221,15 +221,12 @@ public class Player {
      * @return true si le joueur a choisis une carte Missed!
      */
     public boolean askMissed() {
-        Card c = null;
-        if (this.getHand().stream().anyMatch(m -> m.getName().equals("Missed!") || (bangCharacter.getName().equals("Calamity Janet") && m.getName().equals("Bang!")))) {
-            c = this.chooseCard(
-                    "Choisissez une carte Missed!",
-                    this.getHand().stream().filter(m -> m.getName().equals("Missed!") || (bangCharacter.getName().equals("Calamity Janet") && m.getName().equals("Bang!"))).collect(Collectors.toList()),
-                    false,
-                    true);
-            this.discardFromHand(c);
-        }
+        Card c = this.chooseCard(
+                "Choisissez une carte Missed!",
+                this.getHand().stream().filter(m -> m.getName().equals("Missed!") || (bangCharacter.getName().equals("Calamity Janet") && m.getName().equals("Bang!"))).collect(Collectors.toList()),
+                false,
+                true);
+        this.discardFromHand(c);
         return c != null && (c.getName().equals("Missed!") || bangCharacter.getName().equals("Calamity Janet") && c.getName().equals("Bang!"));
     }
 
