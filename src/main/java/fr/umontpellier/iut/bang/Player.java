@@ -235,10 +235,7 @@ public class Player {
     }
 
     public boolean barrelDraw() {
-        boolean drawFromBarrelCard = this.getInPlay().stream().anyMatch(c -> c.getName().equals("Barrel")) && this.randomDraw().getSuit().equals(CardSuit.HEART);
-        return bangCharacter.getName().equals("Jourdonnais") ?
-                drawFromBarrelCard || this.randomDraw().getSuit().equals(CardSuit.HEART) :
-                drawFromBarrelCard;
+        return this.getInPlay().stream().anyMatch(c -> c.getName().equals("Barrel")) && this.randomDraw().getSuit().equals(CardSuit.HEART);
     }
 
     /**

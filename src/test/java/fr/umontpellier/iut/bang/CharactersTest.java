@@ -188,7 +188,7 @@ public class CharactersTest {
     }
 
     @Test
-    void testJoudonnaisDegaineCoeur() {
+    void testJourdonnaisDegaineCoeur() {
         makeGameWithCharacter(new Jourdonnais());
         assertEquals(4, p1.getHealthPointsMax());
         game.setInput("p1");
@@ -204,7 +204,7 @@ public class CharactersTest {
     }
 
     @Test
-    void testJoudonnaisDegainePique() {
+    void testJourdonnaisDegainePique() {
         makeGameWithCharacter(new Jourdonnais());
         assertEquals(4, p1.getHealthPointsMax());
         game.setInput("p1");
