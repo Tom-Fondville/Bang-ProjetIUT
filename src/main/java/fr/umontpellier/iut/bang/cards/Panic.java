@@ -3,8 +3,6 @@ package fr.umontpellier.iut.bang.cards;
 import fr.umontpellier.iut.bang.Player;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class Panic extends OrangeCard {
 
@@ -26,8 +24,19 @@ public class Panic extends OrangeCard {
                 player.getPlayersInRange(1),
                 false);
 
-        p.removeRandomCardFromHand();
+        Card card = player.chooseCard(
+                "Vous pouvez piocher une carte dans la défausse",
+                new ArrayList<>(p.getInPlay()),
+                false,
+                true);
 
-        player.addToHand(p.removeRandomCardFromHand());
+        if (card != null) {
+            p.removeFromInPlay((BlueCard) card);
+            player.addToHand(card);
+        } else {
+            Card randomCard = p.removeRandomCardFromHand();
+            if (randomCard != null) player.addToHand(randomCard);
+        }
     }
 }
+
