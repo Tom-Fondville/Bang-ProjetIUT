@@ -190,9 +190,6 @@ public class Player {
     public void decrementHealth(int n, Player attacker) {
         healthPoints -= n;
 
-        if (bangCharacter.getName().equals("Bart Cassidy"))
-            for (int i = 0; i < n; i++) drawToHand();
-
         if (isDead()) {
             while (isDead() && hand.stream().anyMatch(c -> c.getName().equals("Beer"))) {
                 Card beer = hand.stream().filter(c -> c.getName().equals("Beer")).collect(Collectors.toList()).get(0);
@@ -208,6 +205,9 @@ public class Player {
         }
 
         if (!isDead()) {
+            if (bangCharacter.getName().equals("Bart Cassidy"))
+                for (int i = 0; i < n; i++) drawToHand();
+
             if (attacker != null && bangCharacter.getName().equals("El Gringo")) {
                 for (int i = 0; i < n; i++) {
                     Card card = attacker.removeRandomCardFromHand();
