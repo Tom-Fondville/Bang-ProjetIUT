@@ -354,7 +354,6 @@ public class CharactersTest {
         assertTrue(p1.getHand().contains(beer));
     }
 
-    @Disabled
     @Test
     void testVultureSam() {
         makeGameWithCharacter(new VultureSam());
