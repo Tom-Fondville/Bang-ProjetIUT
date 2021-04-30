@@ -451,4 +451,8 @@ public class Game {
             return discardPile.peek();
         return null;
     }
+
+    public void addToTopOfDrawPile(Card c) {
+        drawPile.push(c);
+    }
 }
