@@ -238,6 +238,11 @@ public class Player {
         return this.getInPlay().stream().anyMatch(c -> c.getName().equals("Barrel")) && this.randomDraw().getSuit().equals(CardSuit.HEART);
     }
 
+    public void shootAPlayer(Player p) {
+        if (!(p.getBangCharacter().getName().equals("Jourdonnais") && p.randomDraw().getSuit().equals(CardSuit.HEART)) && !p.barrelDraw() && !p.askMissed())
+            p.decrementHealth(1, this);
+    }
+
     /**
      * @param player autre joueur
      * @return distance à laquelle le joueur courant voit le joueur passé en paramètre
