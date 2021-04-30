@@ -12,6 +12,7 @@ public class Gatling extends OrangeCard {
     public void playedBy(Player player) {
         super.playedBy(player);
         for (Player p : player.getOtherPlayers())
-            player.shootAPlayer(p);
+            if (!(p.getBangCharacter().getName().equals("Jourdonnais") && p.randomDraw().getSuit().equals(CardSuit.HEART)) && !p.barrelDraw() && !p.askMissed())
+                p.decrementHealth(1, player);
     }
 }

@@ -270,7 +270,6 @@ public class CharactersTest {
         assertTrue(p1.getPlayersInRange(1).contains(p2));
     }
 
-    @Disabled
     @Test
     void testPedroRamirezPiocheDansLaDefausse() {
         makeGameWithCharacter(new PedroRamirez());
@@ -290,7 +289,6 @@ public class CharactersTest {
         assertEquals(bang, drawPile.peek());
     }
 
-    @Disabled
     @Test
     void testPedroRamirezNePiochePasDansLaDefausse() {
         makeGameWithCharacter(new PedroRamirez());
@@ -310,7 +308,6 @@ public class CharactersTest {
         assertEquals(dynamite, discardPile.peek());
     }
 
-    @Disabled
     @Test
     void testRoseDoolan() {
         makeGameWithCharacter(new RoseDoolan());
@@ -322,7 +319,6 @@ public class CharactersTest {
         assertFalse(p3.getPlayersInRange(1).contains(p1));
     }
 
-    @Disabled
     @Test
     void testSlabTheKiller() {
         makeGameWithCharacter(new SlabTheKiller());

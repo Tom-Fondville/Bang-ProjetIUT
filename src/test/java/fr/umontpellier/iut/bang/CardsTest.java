@@ -354,7 +354,6 @@ public class CardsTest {
         assertTrue(p2.getPlayersInRange(1).contains(p1));
     }
 
-    @Disabled
     @Test
     void testPanicCarteEnJeu() {
         simpleGame.setInput("p2", "Barrel");
@@ -369,7 +368,6 @@ public class CardsTest {
         assertTrue(p1.getHand().contains(barrel));
     }
 
-    @Disabled
     @Test
     void testPanicCarteEnMain() {
         simpleGame.setInput("p2", "");
