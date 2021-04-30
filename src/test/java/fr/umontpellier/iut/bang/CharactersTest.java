@@ -46,7 +46,6 @@ public class CharactersTest {
         }));
     }
 
-    @Disabled
     @Test
     void testBartCassidy() {
         makeGameWithCharacter(new BartCassidy());
@@ -59,6 +58,11 @@ public class CharactersTest {
         drawPile.push(jail);
         p2.playFromHand(bang);
         assertTrue(p1.getHand().contains(jail));
+
+        p1.incrementHealth(1);
+        assertEquals(4, p1.getHealthPointsMax());
+        p1.decrementHealth(3, null);
+        assertEquals(4, p1.getHand().size());
     }
 
     @Test
