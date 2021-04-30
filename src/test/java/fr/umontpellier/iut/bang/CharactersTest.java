@@ -321,7 +321,6 @@ public class CharactersTest {
         assertFalse(p3.getPlayersInRange(1).contains(p1));
     }
 
-    @Disabled
     @Test
     void testSlabTheKiller() {
         makeGameWithCharacter(new SlabTheKiller());
