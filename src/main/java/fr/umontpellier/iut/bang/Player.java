@@ -623,11 +623,12 @@ public class Player {
         boolean bang = false;
         while (true) {
             boolean volcanic = weapon != null && weapon.getName().equals("Volcanic");
+            boolean willyTheKid = bangCharacter.getName().equals("Willy the Kid");
 
             List<Card> possibleCards = new ArrayList<>();
             for (Card c : hand) {
                 if (c.canPlayFromHand(this)) {
-                    if (!volcanic && c.getName().equals("Bang!")) {
+                    if (!willyTheKid && !volcanic && c.getName().equals("Bang!")){
                         if (bang) continue;
                     }
                     possibleCards.add(c);

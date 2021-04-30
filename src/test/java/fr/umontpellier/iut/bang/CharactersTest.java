@@ -373,7 +373,6 @@ public class CharactersTest {
         assertTrue(p1.getHand().contains(scope));
     }
 
-    @Disabled
     @Test
     void testWillyTheKid() {
         makeGameWithCharacter(new WillyTheKid());
