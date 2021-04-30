@@ -29,7 +29,8 @@ public class Bang extends OrangeCard {
                     rangePlayers,
                     false);
 
-            player.shootAPlayer(p);
+            if (!(p.getBangCharacter().getName().equals("Jourdonnais") && p.randomDraw().getSuit().equals(CardSuit.HEART)) && !p.barrelDraw() && !p.askMissed())
+                p.decrementHealth(1, player);
         }
     }
 }
