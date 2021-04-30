@@ -308,7 +308,6 @@ public class CharactersTest {
         assertEquals(dynamite, discardPile.peek());
     }
 
-    @Disabled
     @Test
     void testRoseDoolan() {
         makeGameWithCharacter(new RoseDoolan());
@@ -320,7 +319,6 @@ public class CharactersTest {
         assertFalse(p3.getPlayersInRange(1).contains(p1));
     }
 
-    @Disabled
     @Test
     void testSlabTheKiller() {
         makeGameWithCharacter(new SlabTheKiller());

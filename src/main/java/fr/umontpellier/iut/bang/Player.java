@@ -247,6 +247,7 @@ public class Player {
         if (inPlay.stream().anyMatch(c -> c.getName().equals("Scope"))) distance--;
         if (player.getInPlay().stream().anyMatch(c -> c.getName().equals("Mustang"))) distance++;
         if (player.bangCharacter.getName().equals("Paul Regret")) distance++;
+        if (bangCharacter.getName().equals("Rose Doolan")) distance--;
         return Math.max(distance, 1);
     }
 
