@@ -198,8 +198,14 @@ public class Player {
                 }
             }
             if (isDead()) {
-                getHand().forEach(this::discard);
-                getInPlay().forEach(this::discard);
+                Optional<Player> sam = this.getOtherPlayers().stream().filter(player -> player.getBangCharacter().getName().equals("Vulture Sam")).findFirst();
+                if (sam.isPresent()) {
+                    getHand().forEach(sam.get()::addToHand);
+                    getInPlay().forEach(sam.get()::addToHand);
+                } else {
+                    getHand().forEach(this::discard);
+                    getInPlay().forEach(this::discard);
+                }
                 game.removePlayer(this);
             }
         }
@@ -504,9 +510,9 @@ public class Player {
             handJoiner.add(card.toString());
         }
         return String.format("  - %s (%s)\n", name, bangCharacter.getName())
-               + String.format("  Rôle: %s      HP: %s%s\n", role, new String(hpChars), new String(missingHpChars))
-               + String.format("  Arme: %s (%d)     En Jeu: %s\n", weaponString, getWeaponRange(), inPlayJoiner)
-               + String.format("  Main: %s\n", handJoiner);
+                + String.format("  Rôle: %s      HP: %s%s\n", role, new String(hpChars), new String(missingHpChars))
+                + String.format("  Arme: %s (%d)     En Jeu: %s\n", weaponString, getWeaponRange(), inPlayJoiner)
+                + String.format("  Main: %s\n", handJoiner);
     }
 
     /**
@@ -622,11 +628,12 @@ public class Player {
         boolean bang = false;
         while (true) {
             boolean volcanic = weapon != null && weapon.getName().equals("Volcanic");
+            boolean willyTheKid = bangCharacter.getName().equals("Willy the Kid");
 
             List<Card> possibleCards = new ArrayList<>();
             for (Card c : hand) {
                 if (c.canPlayFromHand(this)) {
-                    if (!volcanic && c.getName().equals("Bang!")) {
+                    if (!willyTheKid && !volcanic && c.getName().equals("Bang!")){
                         if (bang) continue;
                     }
                     possibleCards.add(c);

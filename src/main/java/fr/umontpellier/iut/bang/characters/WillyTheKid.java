@@ -4,6 +4,8 @@ public class WillyTheKid extends BangCharacter {
 
     public WillyTheKid() {
         super("Willy the Kid", 4);
+
+
     }
 
 }
