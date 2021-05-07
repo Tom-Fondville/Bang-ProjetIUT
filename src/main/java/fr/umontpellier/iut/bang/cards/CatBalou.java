@@ -4,7 +4,6 @@ import fr.umontpellier.iut.bang.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CatBalou extends OrangeCard {
 
@@ -14,25 +13,23 @@ public class CatBalou extends OrangeCard {
 
     @Override
     public void playedBy(Player player) {
-        List<Player> otherPlayers = player.getOtherPlayers().stream().filter(p -> !p.getHand().isEmpty() || !p.getInPlay().isEmpty()).collect(Collectors.toList());
+        List<Player> otherPlayers = player.getOtherPlayers();
         Player p = player.choosePlayer(
                 "Choisissez un joueur",
                 otherPlayers,
                 false);
 
-        List<Card> cInHand = new ArrayList<>(p.getHand());
-        cInHand.addAll(p.getInPlay());
+        List<Card> cInHand = new ArrayList<>(p.getInPlay());
 
-        Card card = p.chooseCard(
+        Card card = player.chooseCard(
                 "Choisissez une carte à défausser",
                 cInHand,
                 false,
-                false);
-
-        if (p.getHand().contains(card)) {
-            p.discardFromHand(card);
-        }
-        else if (p.getInPlay().contains((BlueCard) card)) {
+                true);
+        if (card == null) {
+            card = p.removeRandomCardFromHand();
+            p.getGame().addToDiscard(card);
+        } else {
             p.removeFromInPlay((BlueCard) card);
             p.discard(card);
         }
