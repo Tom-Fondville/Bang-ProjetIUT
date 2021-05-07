@@ -631,6 +631,7 @@ public class Player {
                     if (!willyTheKid && !volcanic && c.getName().equals("Bang!")){
                         if (bang) continue;
                     }
+                    if (!this.getBangCharacter().getName().equals("Calamity Janet") && c.getName().equals("Missed!")) continue;
                     possibleCards.add(c);
                 }
             }
