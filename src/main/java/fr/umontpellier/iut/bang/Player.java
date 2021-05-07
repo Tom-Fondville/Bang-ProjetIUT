@@ -193,9 +193,7 @@ public class Player {
         if (isDead()) {
             while (isDead() && hand.stream().anyMatch(c -> c.getName().equals("Beer"))) {
                 Card beer = hand.stream().filter(c -> c.getName().equals("Beer")).collect(Collectors.toList()).get(0);
-                if (beer.canPlayFromHand(this)) {
                     this.playFromHand(beer);
-                }
             }
             if (isDead()) {
                 Optional<Player> sam = this.getOtherPlayers().stream().filter(player -> player.getBangCharacter().getName().equals("Vulture Sam")).findFirst();
@@ -631,6 +629,7 @@ public class Player {
                     if (!willyTheKid && !volcanic && c.getName().equals("Bang!")){
                         if (bang) continue;
                     }
+                    if (!this.getBangCharacter().getName().equals("Calamity Janet") && c.getName().equals("Missed!")) continue;
                     possibleCards.add(c);
                 }
             }
