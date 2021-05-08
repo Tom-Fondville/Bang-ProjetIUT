@@ -193,7 +193,7 @@ public class Player {
         if (isDead()) {
             while (isDead() && hand.stream().anyMatch(c -> c.getName().equals("Beer"))) {
                 Card beer = hand.stream().filter(c -> c.getName().equals("Beer")).collect(Collectors.toList()).get(0);
-                    this.playFromHand(beer);
+                this.playFromHand(beer);
             }
             if (isDead()) {
                 Optional<Player> sam = this.getOtherPlayers().stream().filter(player -> player.getBangCharacter().getName().equals("Vulture Sam")).findFirst();
@@ -240,11 +240,6 @@ public class Player {
 
     public boolean barrelDraw() {
         return this.getInPlay().stream().anyMatch(c -> c.getName().equals("Barrel")) && this.randomDraw().getSuit().equals(CardSuit.HEART);
-    }
-
-    public void shootAPlayer(Player p) {
-        if (!(p.getBangCharacter().getName().equals("Jourdonnais") && p.randomDraw().getSuit().equals(CardSuit.HEART)) && !p.barrelDraw() && !p.askMissed())
-            p.decrementHealth(1, this);
     }
 
     /**
@@ -508,9 +503,9 @@ public class Player {
             handJoiner.add(card.toString());
         }
         return String.format("  - %s (%s)\n", name, bangCharacter.getName())
-                + String.format("  Rôle: %s      HP: %s%s\n", role, new String(hpChars), new String(missingHpChars))
-                + String.format("  Arme: %s (%d)     En Jeu: %s\n", weaponString, getWeaponRange(), inPlayJoiner)
-                + String.format("  Main: %s\n", handJoiner);
+               + String.format("  Rôle: %s      HP: %s%s\n", role, new String(hpChars), new String(missingHpChars))
+               + String.format("  Arme: %s (%d)     En Jeu: %s\n", weaponString, getWeaponRange(), inPlayJoiner)
+               + String.format("  Main: %s\n", handJoiner);
     }
 
     /**
@@ -627,14 +622,14 @@ public class Player {
         while (true) {
             boolean volcanic = weapon != null && weapon.getName().equals("Volcanic");
             boolean willyTheKid = bangCharacter.getName().equals("Willy the Kid");
+            boolean calamityJanet = bangCharacter.getName().equals("Calamity Janet");
 
             List<Card> possibleCards = new ArrayList<>();
             for (Card c : hand) {
-                if (c.canPlayFromHand(this)) {
-                    if (!willyTheKid && !volcanic && c.getName().equals("Bang!")){
+                if (c.canPlayFromHand(this) || calamityJanet && c.getName().equals("Missed!")) {
+                    if (!willyTheKid && !volcanic && c.getName().equals("Bang!")) {
                         if (bang) continue;
                     }
-                    if (!this.getBangCharacter().getName().equals("Calamity Janet") && c.getName().equals("Missed!")) continue;
                     possibleCards.add(c);
                 }
             }
@@ -647,6 +642,7 @@ public class Player {
                     discardFromHand(card);
                     card = new Bang(card.getValue(), card.getSuit());
                     card.playedBy(this);
+                    bang = true;
                 } else {
                     playFromHand(card);
                 }

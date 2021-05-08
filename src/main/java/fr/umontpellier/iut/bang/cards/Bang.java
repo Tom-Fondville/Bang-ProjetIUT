@@ -29,9 +29,8 @@ public class Bang extends OrangeCard {
                     rangePlayers,
                     false);
 
-
-            if (player.getBangCharacter().getName().equals("Slab the Killer")){
-                boolean jourdonaisWin,barrelWin,haveMissedCard1,haveMissedCard2;
+            if (player.getBangCharacter().getName().equals("Slab the Killer")) {
+                boolean jourdonaisWin, barrelWin, haveMissedCard1, haveMissedCard2;
                 jourdonaisWin = (p.getBangCharacter().getName().equals("Jourdonnais") && p.randomDraw().getSuit().equals(CardSuit.HEART));
                 barrelWin = p.barrelDraw();
                 if (jourdonaisWin && barrelWin) return;
@@ -40,7 +39,8 @@ public class Bang extends OrangeCard {
                 haveMissedCard2 = p.askMissed();
                 if ((jourdonaisWin || barrelWin || haveMissedCard1) && haveMissedCard2) return;
                 p.decrementHealth(1, player);
-            } else if (!(p.getBangCharacter().getName().equals("Jourdonnais") && p.randomDraw().getSuit().equals(CardSuit.HEART)) && !p.barrelDraw() && !p.askMissed()) p.decrementHealth(1, player);
+            } else if (!(p.getBangCharacter().getName().equals("Jourdonnais") && p.randomDraw().getSuit().equals(CardSuit.HEART)) && !p.barrelDraw() && !p.askMissed())
+                p.decrementHealth(1, player);
         }
     }
 }
